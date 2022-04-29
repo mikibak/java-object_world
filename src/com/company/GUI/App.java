@@ -13,8 +13,10 @@ public class App {
     private JPanel optionsPanel;
     private JPanel gamePanel;
     private JPanel logsPanel;
+    private JButton button1;
 
     public App(World world) {
+        this.world = world;
         showMessageButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -29,6 +31,18 @@ public class App {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
+        this.drawMap(frame);
+    }
+
+    public void drawMap(JFrame frame) {
+        for(int i = 0; i < world.getMapSizeY(); i++) {
+            for(int j = 0; j < world.getMapSizeY(); j++) {
+                //optionsPanel.add(button);
+                optionsPanel.add(new JTextField("Bla"));
+            }
+        }
+        gamePanel.revalidate();
+        gamePanel.repaint();
     }
 
     private void createUIComponents() {

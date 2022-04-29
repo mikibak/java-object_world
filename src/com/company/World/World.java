@@ -15,4 +15,12 @@ public class World {
         this.mapSizeX = x;
         this.mapSizeY = y;
     }
+
+    public int getMapSizeX() {
+        return mapSizeX;
+    }
+
+    public int getMapSizeY() {
+        return mapSizeY;
+    }
 }
