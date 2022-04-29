@@ -1,9 +1,13 @@
 package com.company;
 
+import com.company.GUI.App;
+import com.company.World.World;
+
 public class Main {
 
     public static void main(String[] args) {
-	// write your code here
-        System.out.println("Hello world!");
+        World world = new World(20,20);
+        App app = new App(world);
+        app.createWindow();
     }
 }
