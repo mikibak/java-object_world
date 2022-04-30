@@ -1,36 +1,42 @@
 package com.company.World;
 
 import com.company.Organisms.Organism;
+import com.company.World.Maps.Map;
+import com.company.World.Maps.SquareMap;
+
+import javax.swing.*;
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.ListIterator;
 
 public class World {
 
     private ArrayList<Organism> organismArray;
-    private int mapSizeX;
-    private int mapSizeY;
     private String logs;
     private int turn;
     private Map map;
 
     public World(int x, int y) {
-        this.mapSizeX = x;
-        this.mapSizeY = y;
+        this.map = new SquareMap(x,y);
+        this.organismArray = new ArrayList<Organism>();
+        this.logs = "Game starts now! ";
     }
 
-    public int getMapSizeX() {
-        return mapSizeX;
-    }
-    public int getMapSizeY() {
-        return mapSizeY;
-    }
+    //getters
     public int getNumberOfOrganisms() {
         return organismArray.size();
     }
     Organism getOneOrganism(int index) {
         return null;
     }
-    void add_organism(Organism organism) {
+    public ArrayList<Organism> getOrganismArray() {
+        return organismArray;
+    }
+    public Map getMap() {
+        return map;
+    }
+    //operations on organisms
+    public void addOrganism(Organism organism) {
         ListIterator<Organism> iterator = organismArray.listIterator();
         boolean added = false;
         for (Organism o : organismArray) {
@@ -41,14 +47,14 @@ public class World {
             }
             iterator.next();
         }
-        if (added == false) {
+        if (!added) {
             organismArray.add(organism);
         }
     }
-    void add_multiple(int number_of_each_species) {
-
+    public void addMultiple(int number_of_each_species) {
+        //TODO
     }
-    void remove_organism(Organism organism) {
+    public void removeOrganism(Organism organism) {
         ListIterator<Organism> iterator = organismArray.listIterator();
         for (Organism o : organismArray) {
             if (o == organism) {
@@ -58,8 +64,11 @@ public class World {
             iterator.next();
         }
     }
-    public ArrayList<Organism> getOrganismArray() {
-        return organismArray;
+    public JButton addToMap(Organism organism) {
+        JButton b = new JButton(organism.getName());
+        b.addActionListener((ActionEvent event) -> {
+            JOptionPane.showMessageDialog(null,"Power: " + organism.getPower() + "\nInitiative: " + organism.getInitiative());
+        });
+        return b;
     }
-
 }

@@ -1,11 +1,13 @@
 package com.company.GUI;
 
+import com.company.Organisms.Organism;
 import com.company.World.World;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import com.company.World.Point;
 
 public class App {
     private World world;
@@ -37,17 +39,21 @@ public class App {
     }
 
     public void drawMap(JFrame frame) {
-        JPanel[] rows = new JPanel[world.getMapSizeY()];
+        JPanel[] rows = new JPanel[world.getMap().getMapSizeY()];
         GridBagConstraints gbc = setupGridBag();
-        for(int i = 0; i < world.getMapSizeY(); i++) {
+        for(int i = 0; i < world.getMap().getMapSizeY(); i++) {
             rows[i] = new JPanel();
             rows[i].setLayout(gamePanel.getLayout());
             gamePanel.add(rows[i],gbc);
-            for(int j = 0; j < world.getMapSizeX(); j++) {
+            for(int j = 0; j < world.getMap().getMapSizeX(); j++) {
                 JButton b = new JButton(" ");
-                b.addActionListener((ActionEvent event) -> {
-                    JOptionPane.showMessageDialog(null,"Hello world!");
-                });
+                Point p = new Point(j,i);
+                for (Organism o : world.getOrganismArray()) {
+                    if (o.getPosition().getX() == j && o.getPosition().getY() == i) {
+                        b = world.addToMap(o);
+                        break;
+                    }
+                }
                 rows[i].add(b);
             }
         }
