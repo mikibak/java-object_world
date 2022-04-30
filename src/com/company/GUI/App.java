@@ -12,8 +12,8 @@ public class App {
     private JPanel panel1;
     private JPanel optionsPanel;
     private JPanel gamePanel;
-    private JPanel logsPanel;
     private JButton button1;
+    private JPanel logsPanel;
 
     public App(World world) {
         this.world = world;
@@ -36,17 +36,17 @@ public class App {
     }
 
     public void drawMap(JFrame frame) {
-        //JPanel[] rows = new JPanel[world.getMapSizeY()];
-        for(int i = 0; i < world.getMapSizeY(); i++) {
-            //rows[i].setLayout(gamePanel.getLayout());
-            //gamePanel.add(rows[i]);
-            for(int j = 0; j < world.getMapSizeY(); j++) {
+        JPanel[] rows = new JPanel[world.getMapSizeY()];
+        for(int i = 0; i < 3; i++) {
+            rows[i] = new JPanel();
+            rows[i].setLayout(gamePanel.getLayout());
+            gamePanel.add(rows[i]);
+            for(int j = 0; j < 3; j++) {
                 JButton b = new JButton("O");
                 b.addActionListener((ActionEvent event) -> {
                     JOptionPane.showMessageDialog(null,"Hello world!");
                 });
-                //rows[i].add(b);
-                gamePanel.add(b);
+                rows[i].add(b);
             }
         }
         gamePanel.revalidate();
