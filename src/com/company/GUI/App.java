@@ -3,6 +3,7 @@ package com.company.GUI;
 import com.company.World.World;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -37,12 +38,16 @@ public class App {
 
     public void drawMap(JFrame frame) {
         JPanel[] rows = new JPanel[world.getMapSizeY()];
-        for(int i = 0; i < 3; i++) {
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.weightx = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        for(int i = 0; i < world.getMapSizeY(); i++) {
             rows[i] = new JPanel();
             rows[i].setLayout(gamePanel.getLayout());
-            gamePanel.add(rows[i]);
-            for(int j = 0; j < 3; j++) {
-                JButton b = new JButton("O");
+            gamePanel.add(rows[i],gbc);
+            for(int j = 0; j < world.getMapSizeX(); j++) {
+                JButton b = new JButton(" ");
                 b.addActionListener((ActionEvent event) -> {
                     JOptionPane.showMessageDialog(null,"Hello world!");
                 });
@@ -51,6 +56,7 @@ public class App {
         }
         gamePanel.revalidate();
         gamePanel.repaint();
+        frame.pack();
     }
 
     private void createUIComponents() {
