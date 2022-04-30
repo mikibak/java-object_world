@@ -29,16 +29,24 @@ public class App {
         JFrame frame = new JFrame("App");
         frame.setContentPane(this.panel1);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
         frame.pack();
         frame.setVisible(true);
         this.drawMap(frame);
     }
 
     public void drawMap(JFrame frame) {
+        //JPanel[] rows = new JPanel[world.getMapSizeY()];
         for(int i = 0; i < world.getMapSizeY(); i++) {
+            //rows[i].setLayout(gamePanel.getLayout());
+            //gamePanel.add(rows[i]);
             for(int j = 0; j < world.getMapSizeY(); j++) {
-                //optionsPanel.add(button);
-                optionsPanel.add(new JTextField("Bla"));
+                JButton b = new JButton("O");
+                b.addActionListener((ActionEvent event) -> {
+                    JOptionPane.showMessageDialog(null,"Hello world!");
+                });
+                //rows[i].add(b);
+                gamePanel.add(b);
             }
         }
         gamePanel.revalidate();
