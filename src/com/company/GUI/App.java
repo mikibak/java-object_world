@@ -38,10 +38,7 @@ public class App {
 
     public void drawMap(JFrame frame) {
         JPanel[] rows = new JPanel[world.getMapSizeY()];
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.weightx = 1;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        GridBagConstraints gbc = setupGridBag();
         for(int i = 0; i < world.getMapSizeY(); i++) {
             rows[i] = new JPanel();
             rows[i].setLayout(gamePanel.getLayout());
@@ -61,5 +58,13 @@ public class App {
 
     private void createUIComponents() {
         // TODO: place custom component creation code here
+    }
+
+    private GridBagConstraints setupGridBag() {
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.weightx = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        return gbc;
     }
 }
