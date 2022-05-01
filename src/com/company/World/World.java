@@ -17,7 +17,7 @@ public class World {
     private Map map;
 
     public World(int x, int y) {
-        this.map = new SquareMap(x,y);
+        this.map = new SquareMap(x,y,this);
         this.organismArray = new ArrayList<Organism>();
         this.logs = "Game starts now! ";
     }
@@ -63,5 +63,28 @@ public class World {
             }
             iterator.next();
         }
+    }
+    //world functionality
+    public void playTurn() {
+        int i = 0;
+        while(i < organismArray.size()) {
+            Organism current = organismArray.get(i);
+            current.addAge();
+            Point newPosition = current.action();
+            boolean collided = false;
+            for (Organism host : organismArray) {
+                //check whether a collision occured
+                if (host.getPosition().equals(newPosition) && host != current) {
+                    logs = logs + host.collision(current);
+                    collided = true;
+                    break;
+                }
+            }
+            if (!collided) {
+                current.setPosition(newPosition);
+            }
+            i++;
+        }
+        turn++;
     }
 }

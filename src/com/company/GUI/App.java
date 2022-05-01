@@ -1,6 +1,5 @@
 package com.company.GUI;
 
-import com.company.Organisms.Organism;
 import com.company.World.World;
 
 import javax.swing.*;
@@ -11,14 +10,16 @@ import com.company.World.Point;
 
 public class App {
     private World world;
+    private JFrame frame;
     private JButton showMessageButton;
     private JPanel panel1;
     private JPanel optionsPanel;
     private JPanel gamePanel;
-    private JButton button1;
+    private JButton nextTurnButton;
     private JPanel logsPanel;
 
     public App(World world) {
+        frame = new JFrame("App");
         this.world = world;
         showMessageButton.addActionListener(new ActionListener() {
             @Override
@@ -26,19 +27,23 @@ public class App {
                 JOptionPane.showMessageDialog(null,"Hello world!");
             }
         });
+        nextTurnButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                world.playTurn();
+                drawMap(frame);
+            }
+        });
     }
-
     public void createWindow() {
-        JFrame frame = new JFrame("App");
         frame.setContentPane(this.panel1);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
         frame.pack();
         frame.setVisible(true);
         this.drawMap(frame);
     }
-
     public void drawMap(JFrame frame) {
+        gamePanel.removeAll();
         JPanel[] rows = new JPanel[world.getMap().getMapSizeY()];
         GridBagConstraints gbc = setupGridBag();
         for(int i = 0; i < world.getMap().getMapSizeY(); i++) {
@@ -55,16 +60,15 @@ public class App {
         gamePanel.repaint();
         frame.pack();
     }
-
     private void createUIComponents() {
         // TODO: place custom component creation code here
     }
-
     private GridBagConstraints setupGridBag() {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.weightx = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridwidth = GridBagConstraints.REMAINDER;
+        //gbc.gridheight = GridBagConstraints.VERTICAL;
         return gbc;
     }
 }

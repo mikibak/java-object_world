@@ -2,15 +2,16 @@ package com.company.World.Maps;
 
 import com.company.Organisms.Organism;
 import com.company.World.Point;
+import com.company.World.World;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.Random;
 
 public class SquareMap extends Map{
-    public SquareMap(int x, int y) {
-        this.mapSizeX = x;
-        this.mapSizeY = y;
+    public SquareMap(int x, int y, World world) {
+        super(x,y,world);
     }
     public Point findRandomPointNearby(Point point) {
         Point newPosition = new Point();
@@ -35,7 +36,13 @@ public class SquareMap extends Map{
         return point;
     }
     public JButton createButton(Organism organism) {
+        if(organism == null) {
+            JButton button = new JButton("");
+            button.setPreferredSize(new Dimension(40, 40));
+            return button;
+        }
         JButton b = new JButton(organism.getName());
+        b.setPreferredSize(new Dimension(40, 40));
         b.addActionListener((ActionEvent event) -> {
             JOptionPane.showMessageDialog(null,"Power: " + organism.getPower() + "\nInitiative: " + organism.getInitiative());
         });

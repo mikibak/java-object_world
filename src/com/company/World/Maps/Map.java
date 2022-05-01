@@ -14,6 +14,11 @@ public abstract class Map {
     protected int mapSizeY;
     protected World world;
 
+    public Map(int x, int y, World world) {
+        this.mapSizeX = x;
+        this.mapSizeY = y;
+        this.world = world;
+    }
     public int getMapSizeX() {
         return mapSizeX;
     }
@@ -59,7 +64,7 @@ public abstract class Map {
     public abstract Point findRandomPointNearby(Point point);
     public abstract Point findEmptyPointNearby(Point point);
     public JButton addOnPosition(Point p) {
-        JButton b = new JButton(" ");
+        JButton b = createButton(null);
         for (Organism o : world.getOrganismArray()) {
             if (o.getPosition().equals(p)) {
                 b = createButton(o);

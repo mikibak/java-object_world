@@ -31,7 +31,7 @@ public abstract class Organism {
     public int getAge() {
         return age;
     }
-    public void addAge(int age) {
+    public void addAge() {
         this.age++;
     }
     public int getInitiative() {
