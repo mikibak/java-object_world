@@ -4,13 +4,15 @@ import com.company.Organisms.Organism;
 import com.company.World.Point;
 import com.company.World.World;
 
+import javax.swing.*;
+import java.awt.event.ActionEvent;
 import java.util.Random;
 
 public abstract class Map {
     protected int sleepBetweenMoves = 0;
     protected int mapSizeX;
     protected int mapSizeY;
-    private World world;
+    protected World world;
 
     public int getMapSizeX() {
         return mapSizeX;
@@ -56,4 +58,15 @@ public abstract class Map {
     }
     public abstract Point findRandomPointNearby(Point point);
     public abstract Point findEmptyPointNearby(Point point);
+    public JButton addOnPosition(Point p) {
+        JButton b = new JButton(" ");
+        for (Organism o : world.getOrganismArray()) {
+            if (o.getPosition().equals(p)) {
+                b = createButton(o);
+                break;
+            }
+        }
+        return b;
+    }
+    public abstract JButton createButton(Organism organism);
 }

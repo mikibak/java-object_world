@@ -64,11 +64,4 @@ public class World {
             iterator.next();
         }
     }
-    public JButton addToMap(Organism organism) {
-        JButton b = new JButton(organism.getName());
-        b.addActionListener((ActionEvent event) -> {
-            JOptionPane.showMessageDialog(null,"Power: " + organism.getPower() + "\nInitiative: " + organism.getInitiative());
-        });
-        return b;
-    }
 }

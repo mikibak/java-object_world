@@ -46,14 +46,8 @@ public class App {
             rows[i].setLayout(gamePanel.getLayout());
             gamePanel.add(rows[i],gbc);
             for(int j = 0; j < world.getMap().getMapSizeX(); j++) {
-                JButton b = new JButton(" ");
                 Point p = new Point(j,i);
-                for (Organism o : world.getOrganismArray()) {
-                    if (o.getPosition().getX() == j && o.getPosition().getY() == i) {
-                        b = world.addToMap(o);
-                        break;
-                    }
-                }
+                JButton b = world.getMap().addOnPosition(p);
                 rows[i].add(b);
             }
         }
