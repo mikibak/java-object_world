@@ -21,7 +21,7 @@
               <gridbag weightx="1.0" weighty="1.0"/>
             </constraints>
             <properties>
-              <text value="Show Message"/>
+              <text value="Restart"/>
             </properties>
           </component>
           <component id="d06f1" class="javax.swing.JButton" binding="nextTurnButton" default-binding="true">

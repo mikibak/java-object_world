@@ -3,6 +3,8 @@ package com.company.Organisms;
 import com.company.World.Point;
 import com.company.World.World;
 
+import javax.swing.*;
+
 public abstract class Organism {
     private Point position;
     private String name;
@@ -12,14 +14,16 @@ public abstract class Organism {
     protected World world;
     private final int maturityAge = 5;
     private final int oldAge = 15;
+    ImageIcon image;
 
-    public Organism(Point position, String name, int initiative, int power, int age, World world) {
+    public Organism(Point position, String name, int initiative, int power, int age, World world, ImageIcon image) {
         this.position = position;
         this.name = name;
         this.initiative = initiative;
         this.power = power;
         this.age = age;
         this.world = world;
+        this.image = image;
     }
     //getters and setters
     public int getPower() {
@@ -54,6 +58,9 @@ public abstract class Organism {
     }
     public int getOldAge() {
         return oldAge;
+    }
+    public ImageIcon getImage() {
+        return image;
     }
 
     public void createAnyOffspring(World world, Point childsPosition, String name) {

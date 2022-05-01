@@ -53,6 +53,7 @@ public class App {
             for(int j = 0; j < world.getMap().getMapSizeX(); j++) {
                 Point p = new Point(j,i);
                 JButton b = world.getMap().addOnPosition(p);
+                b.setMinimumSize(new Dimension(30,30));
                 rows[i].add(b);
             }
         }
@@ -68,7 +69,6 @@ public class App {
         gbc.weightx = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridwidth = GridBagConstraints.REMAINDER;
-        //gbc.gridheight = GridBagConstraints.VERTICAL;
         return gbc;
     }
 }

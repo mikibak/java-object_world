@@ -19,7 +19,7 @@ public class SquareMap extends Map{
         while(true) {
             newPosition.setX((rand.nextInt(3)-1) + point.getX());
             newPosition.setY((rand.nextInt(3)-1) + point.getY());
-            if(!newPosition.equals(point)) {
+            if(!newPosition.equals(point) && isInBounds(newPosition)) {
                 break;
             }
         }
@@ -41,7 +41,7 @@ public class SquareMap extends Map{
             button.setPreferredSize(new Dimension(40, 40));
             return button;
         }
-        JButton b = new JButton(organism.getName());
+        JButton b = new JButton(organism.getImage());
         b.setPreferredSize(new Dimension(40, 40));
         b.addActionListener((ActionEvent event) -> {
             JOptionPane.showMessageDialog(null,"Power: " + organism.getPower() + "\nInitiative: " + organism.getInitiative());

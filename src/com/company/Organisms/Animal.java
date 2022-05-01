@@ -3,9 +3,11 @@ import com.company.World.Point;
 import com.company.World.World;
 import com.company.Organisms.Organism;
 
+import javax.swing.*;
+
 public abstract class Animal extends Organism {
-    public Animal(Point position, String name, int initiative, int power, int age, World world) {
-        super(position, name, initiative, power, age, world);
+    public Animal(Point position, String name, int initiative, int power, int age, World world, ImageIcon image) {
+        super(position, name, initiative, power, age, world, image);
     }
 
     public Point action() {
