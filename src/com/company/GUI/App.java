@@ -41,6 +41,7 @@ public class App {
         frame.pack();
         frame.setVisible(true);
         this.drawMap(frame);
+        this.writeLogs(frame);
     }
     public void drawMap(JFrame frame) {
         gamePanel.removeAll();
@@ -59,6 +60,13 @@ public class App {
         }
         gamePanel.revalidate();
         gamePanel.repaint();
+        frame.pack();
+    }
+    public void writeLogs(JFrame frame) {
+        logsPanel.removeAll();
+        logsPanel.add(new JTextField(world.getLogs()));
+        logsPanel.revalidate();
+        logsPanel.repaint();
         frame.pack();
     }
     private void createUIComponents() {

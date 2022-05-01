@@ -35,6 +35,13 @@ public class World {
     public Map getMap() {
         return map;
     }
+    public String getLogs() {
+        return logs;
+    }
+    public int getTurn() {
+        return turn;
+    }
+
     //operations on organisms
     public void addOrganism(Organism organism) {
         ListIterator<Organism> iterator = organismArray.listIterator();
@@ -64,6 +71,7 @@ public class World {
             iterator.next();
         }
     }
+
     //world functionality
     public void playTurn() {
         int i = 0;

@@ -2,8 +2,11 @@ package com.company.Organisms;
 
 import com.company.World.Point;
 import com.company.World.World;
+import com.company.Organisms.Plants.Grass;
 
 import javax.swing.*;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
 public abstract class Organism {
     private Point position;
@@ -62,9 +65,21 @@ public abstract class Organism {
     public ImageIcon getImage() {
         return image;
     }
+    public void setWorld(World world) {
+        this.world = world;
+    }
 
     public void createAnyOffspring(World world, Point childsPosition, String name) {
-        //TODO
+        try
+        {
+            Constructor<? extends Organism> constructor = getClass().getDeclaredConstructor(Point.class, World.class);
+            Organism organism = constructor.newInstance(childsPosition, world );
+            world.addOrganism(organism);
+        }
+        catch( Exception e )
+        {
+            System.out.println( e ) ;
+        }
     }
     public abstract Point action();
     public abstract String collision(Organism guest);

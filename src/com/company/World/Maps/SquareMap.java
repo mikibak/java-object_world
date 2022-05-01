@@ -44,7 +44,7 @@ public class SquareMap extends Map{
         JButton b = new JButton(organism.getImage());
         b.setPreferredSize(new Dimension(40, 40));
         b.addActionListener((ActionEvent event) -> {
-            JOptionPane.showMessageDialog(null,"Power: " + organism.getPower() + "\nInitiative: " + organism.getInitiative());
+            JOptionPane.showMessageDialog(null,"Name: " + organism.getName() + "\nPower: " + organism.getPower() + "\nInitiative: " + organism.getInitiative());
         });
         return b;
     }
