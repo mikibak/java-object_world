@@ -62,7 +62,7 @@ public class World {
         //TODO
     }
     public void removeOrganism(Organism organism) {
-        ListIterator<Organism> iterator = organismArray.listIterator();
+        ListIterator<Organism> iterator = organismArray.listIterator(1);
         for (Organism o : organismArray) {
             if (o == organism) {
                 iterator.remove();
@@ -74,6 +74,7 @@ public class World {
 
     //world functionality
     public void playTurn() {
+        logs = "";
         int i = 0;
         while(i < organismArray.size()) {
             Organism current = organismArray.get(i);
@@ -81,7 +82,7 @@ public class World {
             Point newPosition = current.action();
             boolean collided = false;
             for (Organism host : organismArray) {
-                //check whether a collision occured
+                //check whether a collision occurred
                 if (host.getPosition().equals(newPosition) && host != current) {
                     logs = logs + host.collision(current);
                     collided = true;

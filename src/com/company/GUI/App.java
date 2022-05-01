@@ -11,7 +11,6 @@ import com.company.World.Point;
 public class App {
     private World world;
     private JFrame frame;
-    private JButton showMessageButton;
     private JPanel panel1;
     private JPanel optionsPanel;
     private JPanel gamePanel;
@@ -21,12 +20,6 @@ public class App {
     public App(World world) {
         frame = new JFrame("App");
         this.world = world;
-        showMessageButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null,"Hello world!");
-            }
-        });
         nextTurnButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -38,10 +31,9 @@ public class App {
     public void createWindow() {
         frame.setContentPane(this.panel1);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
         frame.setVisible(true);
         this.drawMap(frame);
-        this.writeLogs(frame);
+        frame.pack();
     }
     public void drawMap(JFrame frame) {
         gamePanel.removeAll();
@@ -60,14 +52,14 @@ public class App {
         }
         gamePanel.revalidate();
         gamePanel.repaint();
-        frame.pack();
+        this.writeLogs(frame);
     }
     public void writeLogs(JFrame frame) {
         logsPanel.removeAll();
-        logsPanel.add(new JTextField(world.getLogs()));
+        String logs = world.getLogs();
+        logsPanel.add(new JTextArea(logs));
         logsPanel.revalidate();
         logsPanel.repaint();
-        frame.pack();
     }
     private void createUIComponents() {
         // TODO: place custom component creation code here

@@ -7,7 +7,7 @@ import javax.swing.*;
 
 public abstract class Plant extends Organism {
     private final int maturityAge = 5;
-    private final int oldAge = 7;
+    private final int oldAge = 6;
 
     public Plant(Point position, String name, int initiative, int power, int age, World world, ImageIcon image) {
         super(position, name, initiative, power, age, world, image);
