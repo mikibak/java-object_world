@@ -25,7 +25,7 @@ public class HexTest {
         //The flag indicates wether or not to begin with a small row.
         //
         //Rows are calculated automaticaly, based on number of columns/elements
-        f.setLayout(new HexagonalLayout(6, new Insets(5, 5, 5, 5), false));
+        f.setLayout(new HexagonalLayout(6,6, new Insets(5, 5, 5, 5), false));
 
         for (int i = 0; i < 44; i++) { // Change the number in the loop to get
             // more/less buttons

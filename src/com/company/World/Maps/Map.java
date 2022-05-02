@@ -74,4 +74,5 @@ public abstract class Map {
         return b;
     }
     public abstract JButton createButton(Organism organism);
+    public abstract void drawMap(JFrame frame, JPanel gamePanel);
 }

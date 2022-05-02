@@ -2,12 +2,16 @@ package com.company.GUI;
 
 import com.company.GUI.Components.HexagonalButton;
 import com.company.GUI.Components.HexagonalLayout;
+import com.company.World.Maps.HexMap;
+import com.company.World.Maps.SquareMap;
 import com.company.World.World;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+
 import com.company.World.Point;
 
 public class App {
@@ -16,58 +20,147 @@ public class App {
     private JPanel panel1;
     private JPanel optionsPanel;
     private JPanel gamePanel;
-    private JButton nextTurnButton;
+    private JMenuItem nextTurnButton;
     private JPanel logsPanel;
+    private JMenuBar menuBar;
 
     public App(World world) {
         frame = new JFrame("App");
         this.world = world;
+    }
+    public void createWindow() {
+        setupMenuBar();
+        panel1.add(menuBar);
+        frame.setContentPane(this.panel1);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+        frame.pack();
+    }
+    public void drawMap() {
+        gamePanel.removeAll();
+        world.getMap().drawMap(frame, gamePanel);
+        gamePanel.revalidate();
+        gamePanel.repaint();
+        this.writeLogs(frame);
+        frame.pack();
+    }
+    public void setupMenuBar() {
+        JMenu fileMenu;
+        JMenuItem save;
+        JMenuItem load;
+        JMenu newMenu;
+        JMenuItem square;
+        JMenuItem hex;
+        menuBar = new JMenuBar();
+
+        fileMenu = new JMenu("File");
+        fileMenu.setMnemonic(KeyEvent.VK_A);
+        fileMenu.getAccessibleContext().setAccessibleDescription("file menu");
+        menuBar.add(fileMenu);
+
+        save = new JMenuItem("Save",KeyEvent.VK_T);
+        save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, ActionEvent.ALT_MASK));
+        save.getAccessibleContext().setAccessibleDescription("save game");
+        save.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO reference save function in world
+            }
+        });
+        fileMenu.add(save);
+
+        load = new JMenuItem("load",KeyEvent.VK_T);
+        load.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, ActionEvent.ALT_MASK));
+        load.getAccessibleContext().setAccessibleDescription("load game");
+        load.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO reference load function in world
+            }
+        });
+        fileMenu.add(load);
+
+        nextTurnButton = new JMenuItem("Next Turn");
+        nextTurnButton.setMnemonic(KeyEvent.VK_N);
+        nextTurnButton.getAccessibleContext().setAccessibleDescription(
+                "Next Turn");
+        menuBar.add(nextTurnButton);
         nextTurnButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 world.playTurn();
-                drawMap(frame);
+                drawMap();
             }
         });
-    }
-    public void createWindow() {
-        frame.setContentPane(this.panel1);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-        this.drawHexMap(frame);
-        frame.pack();
-    }
-    public void drawMap(JFrame frame) {
-        gamePanel.removeAll();
-        JPanel[] rows = new JPanel[world.getMap().getMapSizeY()];
-        GridBagConstraints gbc = setupGridBag();
-        for(int i = 0; i < world.getMap().getMapSizeY(); i++) {
-            rows[i] = new JPanel();
-            rows[i].setLayout(gamePanel.getLayout());
-            gamePanel.add(rows[i],gbc);
-            for(int j = 0; j < world.getMap().getMapSizeX(); j++) {
-                Point p = new Point(j,i);
-                JButton b = world.getMap().addOnPosition(p);
-                b.setMinimumSize(new Dimension(30,30));
-                rows[i].add(b);
+
+        newMenu = new JMenu("New");
+        newMenu.setMnemonic(KeyEvent.VK_A);
+        newMenu.getAccessibleContext().setAccessibleDescription("new game menu");
+        menuBar.add(newMenu);
+
+        square = new JMenuItem("square map",KeyEvent.VK_T);
+        square.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, ActionEvent.ALT_MASK));
+        square.getAccessibleContext().setAccessibleDescription("square map");
+        square.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String sizeX = (String)JOptionPane.showInputDialog(
+                        null,
+                        "Size X:",
+                        "Choose size X",
+                        JOptionPane.PLAIN_MESSAGE,
+                        null,
+                        null,
+                        "");
+                String sizeY = (String)JOptionPane.showInputDialog(
+                        null,
+                        "Size Y:",
+                        "Choose size Y",
+                        JOptionPane.PLAIN_MESSAGE,
+                        null,
+                        null,
+                        "");
+                if(sizeX == "" || sizeY == "" || sizeX == null || sizeY == null) {
+                    sizeX = "20";
+                    sizeY = "20";
+                }
+                world.setMap(new SquareMap(Integer.parseInt(sizeX), Integer.parseInt(sizeY), world));
+                drawMap();
             }
-        }
-        gamePanel.revalidate();
-        gamePanel.repaint();
-        this.writeLogs(frame);
-    }
-    public void drawHexMap(JFrame frame) {
-        gamePanel.removeAll();
-        gamePanel.setLayout(new HexagonalLayout(world.getMap().getMapSizeX(), new Insets(5, 5, 5, 5), false));
-        int numberOfHexes = world.getMap().getMapSizeX() * world.getMap().getMapSizeY() - 1/2 * world.getMap().getMapSizeY();
-        for (int i = 0; i < numberOfHexes; i++) {
-            HexagonalButton b = new HexagonalButton();
-            b.setBackground(Color.blue);
-            gamePanel.add(b);
-        }
-        gamePanel.revalidate();
-        gamePanel.repaint();
-        this.writeLogs(frame);
+        });
+        newMenu.add(square);
+
+        hex = new JMenuItem("hexagonal map",KeyEvent.VK_T);
+        hex.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, ActionEvent.ALT_MASK));
+        hex.getAccessibleContext().setAccessibleDescription("hex game");
+        hex.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String sizeX = (String)JOptionPane.showInputDialog(
+                        null,
+                        "Size X:",
+                        "Choose size X",
+                        JOptionPane.PLAIN_MESSAGE,
+                        null,
+                        null,
+                        "");
+                String sizeY = (String)JOptionPane.showInputDialog(
+                        null,
+                        "Size Y:",
+                        "Choose size Y",
+                        JOptionPane.PLAIN_MESSAGE,
+                        null,
+                        null,
+                        "");
+                if(sizeX == "" || sizeY == "" || sizeX == null || sizeY == null) {
+                    sizeX = "20";
+                    sizeY = "20";
+                }
+                world.setMap(new HexMap(Integer.parseInt(sizeX), Integer.parseInt(sizeY), world));
+                drawMap();
+            }
+        });
+        newMenu.add(hex);
     }
     public void writeLogs(JFrame frame) {
         logsPanel.removeAll();
@@ -78,12 +171,5 @@ public class App {
     }
     private void createUIComponents() {
         // TODO: place custom component creation code here
-    }
-    private GridBagConstraints setupGridBag() {
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.weightx = 1;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.gridwidth = GridBagConstraints.REMAINDER;
-        return gbc;
     }
 }

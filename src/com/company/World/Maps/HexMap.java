@@ -1,5 +1,7 @@
 package com.company.World.Maps;
 
+import com.company.GUI.Components.HexagonalButton;
+import com.company.GUI.Components.HexagonalLayout;
 import com.company.Organisms.Organism;
 import com.company.World.Point;
 import com.company.World.World;
@@ -9,12 +11,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.Random;
 
-public class SquareMap extends Map{
-    public SquareMap(int x, int y, World world) {
+public class HexMap extends Map{
+    public HexMap(int x, int y, World world) {
         super(x,y,world);
     }
-    public Point findRandomPointNearby(Point point) {
-        Point newPosition = new Point();
+    public com.company.World.Point findRandomPointNearby(com.company.World.Point point) {
+        com.company.World.Point newPosition = new com.company.World.Point();
         Random rand = new Random();
         while(true) {
             newPosition.setX((rand.nextInt(3)-1) + point.getX());
@@ -25,10 +27,10 @@ public class SquareMap extends Map{
         }
         return newPosition;
     }
-    public Point findEmptyPointNearby(Point point) {
+    public com.company.World.Point findEmptyPointNearby(com.company.World.Point point) {
         for (int j = 0; j < 100; j++) {
             //try 50 times, if it fails return itself
-            Point newPosition = findRandomPointNearby(point);
+            com.company.World.Point newPosition = findRandomPointNearby(point);
             if (isEmpty(newPosition)) {
                 return newPosition;
             }
@@ -49,26 +51,12 @@ public class SquareMap extends Map{
         return b;
     }
     public void drawMap(JFrame frame, JPanel gamePanel) {
-        gamePanel.setLayout(new GridBagLayout());
-        JPanel[] rows = new JPanel[world.getMap().getMapSizeY()];
-        GridBagConstraints gbc = setupGridBag();
-        for(int i = 0; i < world.getMap().getMapSizeY(); i++) {
-            rows[i] = new JPanel();
-            rows[i].setLayout(gamePanel.getLayout());
-            gamePanel.add(rows[i],gbc);
-            for(int j = 0; j < world.getMap().getMapSizeX(); j++) {
-                Point p = new Point(j,i);
-                JButton b = world.getMap().addOnPosition(p);
-                b.setMinimumSize(new Dimension(30,30));
-                rows[i].add(b);
-            }
+        gamePanel.setLayout(new HexagonalLayout(world.getMap().getMapSizeX(), world.getMap().getMapSizeY(), new Insets(2, 2, 2, 2), false));
+        int numberOfHexes = world.getMap().getMapSizeX() * world.getMap().getMapSizeY();
+        for (int i = 0; i < numberOfHexes; i++) {
+            HexagonalButton b = new HexagonalButton();
+            b.setBackground(Color.white);
+            gamePanel.add(b);
         }
-    }
-    private GridBagConstraints setupGridBag() {
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.weightx = 1;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.gridwidth = GridBagConstraints.REMAINDER;
-        return gbc;
     }
 }

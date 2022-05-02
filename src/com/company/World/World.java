@@ -1,6 +1,7 @@
 package com.company.World;
 
 import com.company.Organisms.Organism;
+import com.company.World.Maps.HexMap;
 import com.company.World.Maps.Map;
 import com.company.World.Maps.SquareMap;
 
@@ -15,9 +16,7 @@ public class World {
     private String logs;
     private int turn;
     private Map map;
-
     public World(int x, int y) {
-        this.map = new SquareMap(x,y,this);
         this.organismArray = new ArrayList<Organism>();
         this.logs = "Game starts now! ";
     }
@@ -40,6 +39,11 @@ public class World {
     }
     public int getTurn() {
         return turn;
+    }
+
+    //map
+    public void setMap(Map map) {
+        this.map = map;
     }
 
     //operations on organisms

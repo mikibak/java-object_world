@@ -119,13 +119,13 @@ public class HexagonalLayout implements LayoutManager {
      * @param i Insets object that specify the spacing between gui elements
      * @param beginWithSmallRow Flag for wether or not to begin with a small row.
      */
-    public HexagonalLayout(int cols, Insets i, boolean beginWithSmallRow) {
+    public HexagonalLayout(int cols, int rows, Insets i, boolean beginWithSmallRow) {
         checkColInput(cols);
         insets = i;
-        minSize = new Dimension(800, 600); //Standard size. Can be changed with setter.
-        prefSize = new Dimension(800, 600); //Standard size. Can be changed with setter.
-        this.rows = 0;
-        this.cols = cols;
+        minSize = new Dimension(400, 300); //Standard size. Can be changed with setter.
+        prefSize = new Dimension(400, 300); //Standard size. Can be changed with setter.
+        this.rows = rows;
+        this.cols = cols + 1;
         this.beginWithSmallRow = beginWithSmallRow;
     }
 
@@ -199,11 +199,11 @@ public class HexagonalLayout implements LayoutManager {
             return;
         }
 
-        // This indicates wither or not to begin with a small row
+        // This indicates whether to begin with a small row
         boolean smallRow = beginWithSmallRow;
 
         // Calculating the number of rows needed
-        rows = calculateRows(componentCount);
+        //rows = calculateRows(componentCount);
 
         // insets
         int leftOffset = insets.left;
@@ -233,7 +233,7 @@ public class HexagonalLayout implements LayoutManager {
 
         // Laying out each of the components in the container
         for (Component c : parent.getComponents()) {
-            if (x > parent.getWidth() - boxWidth) {
+            if (x > parent.getWidth() - boxWidth - (int)Math.round(boxWidth / 2.0)){
                 smallRow = !smallRow;
                 if (smallRow) {
                     x = (int)Math.round(boxWidth / 2.0);
