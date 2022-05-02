@@ -1,5 +1,7 @@
 package com.company.GUI;
 
+import com.company.GUI.Components.HexagonalButton;
+import com.company.GUI.Components.HexagonalLayout;
 import com.company.World.World;
 
 import javax.swing.*;
@@ -32,7 +34,7 @@ public class App {
         frame.setContentPane(this.panel1);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
-        this.drawMap(frame);
+        this.drawHexMap(frame);
         frame.pack();
     }
     public void drawMap(JFrame frame) {
@@ -49,6 +51,19 @@ public class App {
                 b.setMinimumSize(new Dimension(30,30));
                 rows[i].add(b);
             }
+        }
+        gamePanel.revalidate();
+        gamePanel.repaint();
+        this.writeLogs(frame);
+    }
+    public void drawHexMap(JFrame frame) {
+        gamePanel.removeAll();
+        gamePanel.setLayout(new HexagonalLayout(world.getMap().getMapSizeX(), new Insets(5, 5, 5, 5), false));
+        int numberOfHexes = world.getMap().getMapSizeX() * world.getMap().getMapSizeY() - 1/2 * world.getMap().getMapSizeY();
+        for (int i = 0; i < numberOfHexes; i++) {
+            HexagonalButton b = new HexagonalButton();
+            b.setBackground(Color.blue);
+            gamePanel.add(b);
         }
         gamePanel.revalidate();
         gamePanel.repaint();

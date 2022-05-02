@@ -9,7 +9,7 @@ import com.company.World.Point;
 public class Main {
 
     public static void main(String[] args) {
-        World world = new World(20,20);
+        World world = new World(10,10);
         App app = new App(world);
         Point p = new Point(5,5);
         Wolf wolf = new Wolf(p,world);
