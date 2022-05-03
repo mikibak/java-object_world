@@ -17,8 +17,7 @@ public abstract class Animal extends Organism {
         if (guest.getName() == this.getName()) {
             if (guest.getAge() > this.getMaturityAge() && this.getAge() > this.getMaturityAge() && guest.getAge() < guest.getOldAge() && this.getAge() < this.getOldAge()) {
                 //breeding occurs only when both parents are of correct age
-                //return breeding(guest);
-                //TODO
+                return breeding(guest);
             }
         }
         else {
@@ -36,5 +35,15 @@ public abstract class Animal extends Organism {
             }
         }
         return "";
+    }
+    public String breeding(Organism guest) {
+        Point childsPosition = world.getMap().findEmptyPointNearby(getPosition());
+        if (childsPosition.equals(this.getPosition()) || childsPosition.equals(guest.getPosition())) {
+            //there was no space, the child dies
+            //return "A newborn " + name + " died;";
+            return "";//avoiding too much text messages
+        }
+        createAnyOffspring(world, childsPosition, guest.getName());
+        return "A new " + getName() + " was born on x = " + childsPosition.getX() + ", y = " + childsPosition.getY() + "; ";
     }
 }

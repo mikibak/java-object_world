@@ -1,18 +1,13 @@
 package com.company.World;
 
 import com.company.Organisms.Organism;
-import com.company.World.Maps.HexMap;
 import com.company.World.Maps.Map;
-import com.company.World.Maps.SquareMap;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ScanResult;
 
-import javax.swing.*;
-import java.awt.event.ActionEvent;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 public class World {
@@ -23,7 +18,7 @@ public class World {
     private Map map;
     private List<Class<Organism>> organismTypes;
 
-    public World(int x, int y) {
+    public World() {
         this.organismArray = new ArrayList<Organism>();
         this.organismTypes = this.findAllClassesUsingReflectionsLibrary("com.company.Organisms");
         this.logs = "Game starts now! ";

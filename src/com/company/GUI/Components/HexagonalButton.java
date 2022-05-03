@@ -138,8 +138,7 @@ public class HexagonalButton extends JButton {
             g.drawPolygon(hexagonalShape);
             g.fillPolygon(hexagonalShape);
         }
-        if(imagePath != null) {
-            //TODO could clear up this shit
+        else  {
             try {
                 BufferedImage img = ImageIO.read(new File(imagePath));
                 g.drawImage(img, 0, 0, new ImageObserver() {
