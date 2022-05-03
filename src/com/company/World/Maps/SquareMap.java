@@ -25,6 +25,10 @@ public class SquareMap extends Map{
         }
         return newPosition;
     }
+    public Point pickPointNearby(Point point) {
+        return findRandomPointNearby(point);
+        //TODO
+    }
     public JButton createButton(Organism organism) {
         if(organism == null) {
             JButton button = new JButton("");

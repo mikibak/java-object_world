@@ -11,6 +11,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.Objects;
 
 import com.company.World.Point;
 
@@ -42,8 +43,18 @@ public class App {
         gamePanel.revalidate();
         gamePanel.repaint();
         this.writeLogs(frame);
-        //frame.pack();
     }
+    public void writeLogs(JFrame frame) {
+        logsPanel.removeAll();
+        String logs = world.getLogs();
+        logsPanel.add(new JTextArea(logs));
+        logsPanel.revalidate();
+        logsPanel.repaint();
+    }
+    private void createUIComponents() {
+        //place custom component creation code here
+    }
+    //menu bar setup
     public void setupMenuBar() {
         JMenu fileMenu;
         JMenuItem save;
@@ -113,45 +124,41 @@ public class App {
         chooseMap(hex, "hexagonal map");
         newMenu.add(hex);
     }
-    public void writeLogs(JFrame frame) {
-        logsPanel.removeAll();
-        String logs = world.getLogs();
-        logsPanel.add(new JTextArea(logs));
-        logsPanel.revalidate();
-        logsPanel.repaint();
-    }
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
-    }
     private void chooseMap(JMenuItem item, String description) {
         item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, ActionEvent.ALT_MASK));
         item.getAccessibleContext().setAccessibleDescription(description);
         item.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String sizeX = (String)JOptionPane.showInputDialog(
-                        null,
-                        "Size X:",
-                        "Choose size X",
-                        JOptionPane.PLAIN_MESSAGE,
-                        null,
-                        null,
-                        "");
-                String sizeY = (String)JOptionPane.showInputDialog(
-                        null,
-                        "Size Y:",
-                        "Choose size Y",
-                        JOptionPane.PLAIN_MESSAGE,
-                        null,
-                        null,
-                        "");
-                if(sizeX == "" || sizeY == "" || sizeX == null || sizeY == null) {
-                    sizeX = "20";
-                    sizeY = "20";
+                JTextField xField = new JTextField(5);
+                JTextField yField = new JTextField(5);
+                JTextField setsField = new JTextField(5);
+
+                int sizeX = 20;
+                int sizeY = 20;
+                int setsOfOrganisms = 0;
+
+                JPanel myPanel = new JPanel();
+                myPanel.add(new JLabel("x:"));
+                myPanel.add(xField);
+                myPanel.add(Box.createHorizontalStrut(15)); // a spacer
+                myPanel.add(new JLabel("y:"));
+                myPanel.add(yField);
+                myPanel.add(Box.createHorizontalStrut(15)); // a spacer
+                myPanel.add(new JLabel("number of each species:"));
+                myPanel.add(setsField);
+
+                int result = JOptionPane.showConfirmDialog(null, myPanel,
+                        "Please Enter X and Y Values", JOptionPane.OK_CANCEL_OPTION);
+                if (result == JOptionPane.OK_OPTION) {
+                    sizeX = Integer.parseInt(xField.getText());
+                    sizeY = Integer.parseInt(yField.getText());
                 }
-                if(description == "square map") {
-                    world.setMap(new SquareMap(Integer.parseInt(sizeX), Integer.parseInt(sizeY), world));
-                } else world.setMap(new HexMap(Integer.parseInt(sizeX), Integer.parseInt(sizeY), world));
+                if(Objects.equals(description, "square map")) {
+                    world.setMap(new SquareMap(sizeX, sizeY, world));
+                } else world.setMap(new HexMap(sizeX, sizeY, world));
+                //world.getOrganismArray().clear();
+                world.addMultiple(setsOfOrganisms);
                 drawMap();
                 frame.pack();
             }

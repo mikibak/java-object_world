@@ -4,11 +4,16 @@ import com.company.Organisms.Organism;
 import com.company.World.Maps.HexMap;
 import com.company.World.Maps.Map;
 import com.company.World.Maps.SquareMap;
+import org.reflections.Reflections;
+import org.reflections.scanners.SubTypesScanner;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.ListIterator;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 
 public class World {
 
@@ -63,7 +68,9 @@ public class World {
         }
     }
     public void addMultiple(int number_of_each_species) {
-        //TODO
+        for(int i = 0; i < number_of_each_species; i++) {
+
+        }
     }
     public void removeOrganism(Organism organism) {
         ListIterator<Organism> iterator = organismArray.listIterator(1);
@@ -74,6 +81,12 @@ public class World {
             }
             iterator.next();
         }
+    }
+    private Set<Class> findAllClassesUsingReflectionsLibrary(String packageName) {
+        Reflections reflections = new Reflections(packageName, new SubTypesScanner(false));
+        return reflections.getSubTypesOf(Object.class)
+                .stream()
+                .collect(Collectors.toSet());
     }
 
     //world functionality

@@ -61,7 +61,6 @@ public abstract class Map {
         }
         return new_position;
     }
-    public abstract Point findRandomPointNearby(Point point);
     public Point findEmptyPointNearby(com.company.World.Point point) {
         for (int j = 0; j < 100; j++) {
             //try 50 times, if it fails return itself
@@ -82,6 +81,8 @@ public abstract class Map {
         }
         return b;
     }
+    public abstract Point findRandomPointNearby(Point point);
+    public abstract Point pickPointNearby(Point point);
     public abstract JButton createButton(Organism organism);
     public abstract void drawMap(JFrame frame, JPanel gamePanel);
 }

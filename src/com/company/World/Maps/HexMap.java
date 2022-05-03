@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.Random;
+import java.util.Scanner;
 
 public class HexMap extends Map{
     public HexMap(int x, int y, World world) {
@@ -49,6 +50,45 @@ public class HexMap extends Map{
             }
         }
         return newPosition;
+    }
+    public Point pickPointNearby(Point point) {
+        return findRandomPointNearby(point);
+        //TODO human movement
+        /*
+        Point newPosition = new Point();
+        int x = point.getX();
+        int y = point.getY();
+        Scanner sc = new Scanner(System.in);
+        char input= sc.next().charAt(0);
+
+
+        //based on https://www.redblobgames.com/grids/hexagons/
+        if(y % 2 == 0) {
+            //even row
+            switch (input) {
+                case 'w' -> newPosition.setXY(x - 1, y - 1);
+                case 'e' -> newPosition.setXY(x, y - 1);
+                case 'd' -> newPosition.setXY(x + 1, y);
+                case 'x' -> newPosition.setXY(x, y + 1);
+                case 'z' -> newPosition.setXY(x - 1, y + 1);
+                case 'a' -> newPosition.setXY(x - 1, y);
+            }
+        } else {
+            //odd row
+            switch (input) {
+                case 'w' -> newPosition.setXY(x, y - 1);
+                case 'e' -> newPosition.setXY(x + 1, y - 1);
+                case 'd' -> newPosition.setXY(x + 1, y);
+                case 'x' -> newPosition.setXY(x + 1, y + 1);
+                case 'z' -> newPosition.setXY(x, y + 1);
+                case 'a' -> newPosition.setXY(x - 1, y);
+            }
+        }
+        if(isInBounds(newPosition)) {
+            return newPosition;
+        } else return point;
+
+         */
     }
     public JButton createButton(Organism organism) {
         if(organism == null) {
