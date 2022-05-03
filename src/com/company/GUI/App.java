@@ -60,6 +60,7 @@ public class App {
         menuBar.add(fileMenu);
 
         //save game
+        //TODO pack this into some function
         save = new JMenuItem("Save",KeyEvent.VK_T);
         save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, ActionEvent.ALT_MASK));
         save.getAccessibleContext().setAccessibleDescription("save game");
