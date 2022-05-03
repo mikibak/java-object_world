@@ -39,91 +39,11 @@ public class HexagonalLayout implements LayoutManager {
     private Dimension minSize;
     private Dimension prefSize;
 
-
-    /**
-     * Generates a HexagonalLayout with the number of columns given. The layout
-     * divides the componenets into equal portions of the parent container. The
-     * rows are arranged in big rows and small rows (every other). The layout
-     * calculates how many rows it need to hold the number of items the parent has.
-     * The number of columns represent the number of items in a long row.
-     * @param cols Number of items in a big row
-     */
-    public HexagonalLayout(int cols) {
-        checkColInput(cols);
-        minSize = new Dimension(800, 600); //Standard size. Can be changed with setter.
-        prefSize = new Dimension(800, 600); //Standard size. Can be changed with setter.
-        insets = new Insets(0, 0, 0, 0);
-        this.rows = 0;
-        this.cols = cols;
-        beginWithSmallRow = false;
-    }
-
-    /**
-     * Generates a HexagonalLayout with the number of columns given. The layout
-     * divides the componenets into equal portions of the parent container. The
-     * rows are arranged in big rows and small rows (every other). The layout
-     * calculates how many rows it need to hold the number of items the parent has.
-     * The number of columns represent the number of items in a big row.
-     *
-     * This constructor has a flag for wether or not to begin with a small row
-     *
-     * @param cols Number of items in a big row.
-     * @param beginWithSmallRow Wether or not to begin with a small row.
-     */
-    public HexagonalLayout(int cols, boolean beginWithSmallRow) {
-        checkColInput(cols);
-        minSize = new Dimension(800, 600); //Standard size. Can be changed with setter.
-        prefSize = new Dimension(800, 600); //Standard size. Can be changed with setter.
-        insets = new Insets(0, 0, 0, 0);
-        this.rows = 0;
-        this.cols = cols;
-        this.beginWithSmallRow = beginWithSmallRow;
-    }
-
-    /**
-     * Generates a HexagonalLayout with the number of columns given. The layout
-     * divides the componenets into equal portions of the parent container. The
-     * rows are arranged in big rows and small rows (every other). The layout
-     * calculates how many rows it need to hold the number of items the parent has.
-     * The number of columns represent the number of items in a big row.
-     *
-     * This constructor also takes an Insets object that specify insets between
-     * elements in the gui.
-     *
-     * @param cols Number of coulumns in a big row.
-     * @param i Insets object that specifies the spacing between gui elements.
-     */
-    public HexagonalLayout(int cols, Insets i) {
-        checkColInput(cols);
-        insets = i;
-        minSize = new Dimension(800, 600); //Standard size. Can be changed with setter.
-        prefSize = new Dimension(800, 600); //Standard size. Can be changed with setter.
-        this.rows = 0;
-        this.cols = cols;
-        beginWithSmallRow = false;
-    }
-
-    /**
-     * Generates a HexagonalLayout with the number of columns given. The layout
-     * divides the componenets into equal portions of the parent container. The
-     * rows are arranged in big rows and small rows (every other). The layout
-     * calculates how many rows it need to hold the number of items the parent has.
-     * The number of columns represent the number of items in a big row.
-     *
-     * This constructor has a flag for wether or not to start with a small row.
-     *
-     * This constructor also takes an Insets object that specify insets between
-     * elements in the gui.
-     *
-     * @param cols Number of columns in a big row.
-     * @param i Insets object that specify the spacing between gui elements
-     * @param beginWithSmallRow Flag for wether or not to begin with a small row.
-     */
     public HexagonalLayout(int cols, int rows, Insets i, boolean beginWithSmallRow) {
         checkColInput(cols);
         insets = i;
-        minSize = new Dimension(400, 300); //Standard size. Can be changed with setter.
-        prefSize = new Dimension(400, 300); //Standard size. Can be changed with setter.
+        minSize = new Dimension(600, 450); //Standard size. Can be changed with setter.
+        prefSize = new Dimension(600, 450); //Standard size. Can be changed with setter.
         this.rows = rows;
         this.cols = cols + 1;
         this.beginWithSmallRow = beginWithSmallRow;
@@ -137,53 +57,6 @@ public class HexagonalLayout implements LayoutManager {
         if (cols <= 0) {
             throw new IllegalArgumentException("Columns can't be set to n < 0");
         }
-    }
-
-    /**
-     * Calculates the numbers of rows needed for the components given the
-     * number of columns given.
-     * @param componentCount
-     * @return
-     */
-    private int calculateRows(int componentCount) {
-
-        boolean smallRow = beginWithSmallRow;
-
-        int numberOfRows = 0;
-        int bgRow = cols;
-        int smRow = bgRow - 1;
-
-        int placedItems = 0;
-        if (smallRow) {
-            while (true) {
-                if (placedItems >= componentCount) {
-                    break;
-                }
-                placedItems += smRow;
-                numberOfRows += 1;
-                if (placedItems >= componentCount) {
-                    break;
-                }
-                placedItems += bgRow;
-                numberOfRows += 1;
-            }
-        } else {
-            while (true) {
-                if (placedItems >= componentCount) {
-                    break;
-                }
-                placedItems += bgRow;
-                numberOfRows += 1;
-                if (placedItems >= componentCount) {
-                    break;
-                }
-                placedItems += smRow;
-                numberOfRows += 1;
-            }
-
-        }
-        System.out.println(numberOfRows);
-        return numberOfRows;
     }
 
     /*
@@ -323,7 +196,7 @@ public class HexagonalLayout implements LayoutManager {
         return prefSize;
     }
 
-    public void setPrefferedSize(Dimension prefSize) {
+    public void setPreferredSize(Dimension prefSize) {
         this.prefSize = prefSize;
     }
 

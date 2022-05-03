@@ -8,7 +8,7 @@ import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 
-import javax.swing.JButton;
+import javax.swing.*;
 
 /**
  * Simple hexagonal button class.
@@ -23,9 +23,20 @@ public class HexagonalButton extends JButton {
      */
     private static final long serialVersionUID = -7142502695252118612L;
     Polygon hexagonalShape;
+    ImageIcon image;
 
 
     public HexagonalButton() {
+        this.setOpaque(false);
+        hexagonalShape = getHexPolygon();
+    }
+    public HexagonalButton(String content) {
+        super(content);
+        this.setOpaque(false);
+        hexagonalShape = getHexPolygon();
+    }
+    public HexagonalButton(ImageIcon image) {
+        this.image = image;
         this.setOpaque(false);
         hexagonalShape = getHexPolygon();
     }
@@ -125,13 +136,17 @@ public class HexagonalButton extends JButton {
      */
     @Override
     protected void paintComponent(Graphics g) {
-        g.setColor(new Color(0.0f, 0.0f, 0.0f, 0.0f));
-        g.fillRect(0, 0, getWidth(), getHeight());
-        g.setColor(getBackground());
-        g.drawPolygon(hexagonalShape);
-        g.fillPolygon(hexagonalShape);
-
-
+        if(image == null) {
+            g.setColor(new Color(0.0f, 0.0f, 0.0f, 0.0f));
+            g.fillRect(0, 0, getWidth(), getHeight());
+            g.setColor(getBackground());
+            g.drawPolygon(hexagonalShape);
+            g.fillPolygon(hexagonalShape);
+        }
+        if(image != null) {
+            super.setIcon(image);
+            g.drawPolygon(hexagonalShape);
+        }
     }
 
     /*

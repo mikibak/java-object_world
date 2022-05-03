@@ -39,12 +39,11 @@ public class HexMap extends Map{
     }
     public JButton createButton(Organism organism) {
         if(organism == null) {
-            JButton button = new JButton("");
-            button.setPreferredSize(new Dimension(40, 40));
+            HexagonalButton button = new HexagonalButton();
+            button.setBackground(Color.white);
             return button;
         }
-        JButton b = new JButton(organism.getImage());
-        b.setPreferredSize(new Dimension(40, 40));
+        HexagonalButton b = new HexagonalButton(organism.getImage());
         b.addActionListener((ActionEvent event) -> {
             JOptionPane.showMessageDialog(null,"Name: " + organism.getName() + "\nPower: " + organism.getPower() + "\nInitiative: " + organism.getInitiative());
         });
@@ -54,8 +53,8 @@ public class HexMap extends Map{
         gamePanel.setLayout(new HexagonalLayout(world.getMap().getMapSizeX(), world.getMap().getMapSizeY(), new Insets(2, 2, 2, 2), false));
         int numberOfHexes = world.getMap().getMapSizeX() * world.getMap().getMapSizeY();
         for (int i = 0; i < numberOfHexes; i++) {
-            HexagonalButton b = new HexagonalButton();
-            b.setBackground(Color.white);
+            Point position = new Point(i % world.getMap().getMapSizeX(), i / world.getMap().getMapSizeX());
+            HexagonalButton b = (HexagonalButton)addOnPosition(position);
             gamePanel.add(b);
         }
     }

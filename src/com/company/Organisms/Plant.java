@@ -6,7 +6,7 @@ import com.company.Organisms.Organism;
 import javax.swing.*;
 
 public abstract class Plant extends Organism {
-    private final int maturityAge = 5;
+    private final int maturityAge = 6;
     private final int oldAge = 6;
 
     public Plant(Point position, String name, int initiative, int power, int age, World world, ImageIcon image) {
@@ -14,7 +14,7 @@ public abstract class Plant extends Organism {
     }
 
     public Point action() {
-        if (this.getAge() > this.getMaturityAge() && this.getAge() < this.getOldAge()) {
+        if ((this.getAge() >= this.getMaturityAge()) && (this.getAge() <= this.getOldAge())) {
             Point childsPosition = world.getMap().findEmptyPointNearby(this.getPosition());
             if (!(childsPosition.equals(this.getPosition()))) {
                 createAnyOffspring(world, childsPosition,this.getName());
@@ -36,5 +36,14 @@ public abstract class Plant extends Organism {
             world.removeOrganism(guest);
             return guests_name + " ate a poisonous " + name + " and died on " + position_string +  "; ";
         }
+    }
+
+    @Override
+    public int getMaturityAge() {
+        return maturityAge;
+    }
+    @Override
+    public int getOldAge() {
+        return oldAge;
     }
 }

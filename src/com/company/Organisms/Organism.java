@@ -10,8 +10,8 @@ import java.lang.reflect.InvocationTargetException;
 
 public abstract class Organism {
     private Point position;
-    private String name;
-    private int initiative;
+    private final String name;
+    private final int initiative;
     private int power;
     private int age = 0;
     protected World world;
