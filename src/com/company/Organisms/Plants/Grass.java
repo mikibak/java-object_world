@@ -9,6 +9,6 @@ import javax.swing.*;
 
 public class Grass extends Plant {
     public Grass(Point position, World world) {
-        super(position, "Grass", 0, 0, 0, world, new ImageIcon("src\\com\\company\\img\\grass.png"));
+        super(position, "Grass", 0, 0, 0, world, "src\\com\\company\\img\\grass.png");
     }
 }

@@ -42,7 +42,7 @@ public class App {
         gamePanel.revalidate();
         gamePanel.repaint();
         this.writeLogs(frame);
-        frame.pack();
+        //frame.pack();
     }
     public void setupMenuBar() {
         JMenu fileMenu;
@@ -152,6 +152,7 @@ public class App {
                     world.setMap(new SquareMap(Integer.parseInt(sizeX), Integer.parseInt(sizeY), world));
                 } else world.setMap(new HexMap(Integer.parseInt(sizeX), Integer.parseInt(sizeY), world));
                 drawMap();
+                frame.pack();
             }
         });
     }

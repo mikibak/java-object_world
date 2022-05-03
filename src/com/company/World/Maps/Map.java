@@ -62,7 +62,16 @@ public abstract class Map {
         return new_position;
     }
     public abstract Point findRandomPointNearby(Point point);
-    public abstract Point findEmptyPointNearby(Point point);
+    public Point findEmptyPointNearby(com.company.World.Point point) {
+        for (int j = 0; j < 100; j++) {
+            //try 50 times, if it fails return itself
+            Point newPosition = findRandomPointNearby(point);
+            if (isEmpty(newPosition)) {
+                return newPosition;
+            }
+        }
+        return point;
+    }
     public JButton addOnPosition(Point p) {
         JButton b = createButton(null);
         for (Organism o : world.getOrganismArray()) {

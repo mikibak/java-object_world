@@ -9,8 +9,8 @@ public abstract class Plant extends Organism {
     private final int maturityAge = 6;
     private final int oldAge = 6;
 
-    public Plant(Point position, String name, int initiative, int power, int age, World world, ImageIcon image) {
-        super(position, name, initiative, power, age, world, image);
+    public Plant(Point position, String name, int initiative, int power, int age, World world, String imagePath) {
+        super(position, name, initiative, power, age, world, imagePath);
     }
 
     public Point action() {

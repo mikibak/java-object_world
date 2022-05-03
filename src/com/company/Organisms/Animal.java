@@ -6,8 +6,8 @@ import com.company.Organisms.Organism;
 import javax.swing.*;
 
 public abstract class Animal extends Organism {
-    public Animal(Point position, String name, int initiative, int power, int age, World world, ImageIcon image) {
-        super(position, name, initiative, power, age, world, image);
+    public Animal(Point position, String name, int initiative, int power, int age, World world, String imagePath) {
+        super(position, name, initiative, power, age, world, imagePath);
     }
 
     public Point action() {

@@ -23,20 +23,15 @@ public class HexagonalButton extends JButton {
      */
     private static final long serialVersionUID = -7142502695252118612L;
     Polygon hexagonalShape;
-    BufferedImage image;
+    String imagePath;
 
 
     public HexagonalButton() {
         this.setOpaque(false);
         hexagonalShape = getHexPolygon();
     }
-    public HexagonalButton(String content) {
-        super(content);
-        this.setOpaque(false);
-        hexagonalShape = getHexPolygon();
-    }
-    public HexagonalButton(BufferedImage image) {
-        this.image = image;
+    public HexagonalButton(String imagePath) {
+        this.imagePath = imagePath;
         this.setOpaque(false);
         hexagonalShape = getHexPolygon();
     }
@@ -136,21 +131,21 @@ public class HexagonalButton extends JButton {
      */
     @Override
     protected void paintComponent(Graphics g) {
-        if(image == null) {
+        if(imagePath == null) {
             g.setColor(new Color(0.0f, 0.0f, 0.0f, 0.0f));
             g.fillRect(0, 0, getWidth(), getHeight());
             g.setColor(getBackground());
             g.drawPolygon(hexagonalShape);
             g.fillPolygon(hexagonalShape);
         }
-        if(image != null) {
-            String pathname =
+        if(imagePath != null) {
+            //TODO could clear up this shit
             try {
-                BufferedImage img = ImageIO.read(new File("src\\com\\company\\img\\wolf.bmp"));
+                BufferedImage img = ImageIO.read(new File(imagePath));
                 g.drawImage(img, 0, 0, new ImageObserver() {
                     @Override
                     public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
-                        return false;
+                        return true;
                     }
                 });
             } catch (IOException e) {

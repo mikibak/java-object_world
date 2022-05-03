@@ -15,11 +15,19 @@ public class HexMap extends Map{
     public HexMap(int x, int y, World world) {
         super(x,y,world);
     }
-    public com.company.World.Point findRandomPointNearby(com.company.World.Point point) {
-        com.company.World.Point newPosition = new com.company.World.Point();
+    public Point findRandomPointNearby(Point point) {
+        Point newPosition = new Point();
         Random rand = new Random();
+        //TODO fix this shit
         while(true) {
-            newPosition.setX((rand.nextInt(3)-1) + point.getX());
+            int randInt = rand.nextInt(6);
+            if (randInt == 0) {
+                newPosition.setX(point.getX()+1);
+            } else if(randInt == 1 || randInt == 2) {
+                //does not change
+            } else {
+                newPosition.setX(point.getX()-1);
+            }
             newPosition.setY((rand.nextInt(3)-1) + point.getY());
             if(!newPosition.equals(point) && isInBounds(newPosition)) {
                 break;
@@ -27,23 +35,13 @@ public class HexMap extends Map{
         }
         return newPosition;
     }
-    public com.company.World.Point findEmptyPointNearby(com.company.World.Point point) {
-        for (int j = 0; j < 100; j++) {
-            //try 50 times, if it fails return itself
-            com.company.World.Point newPosition = findRandomPointNearby(point);
-            if (isEmpty(newPosition)) {
-                return newPosition;
-            }
-        }
-        return point;
-    }
     public JButton createButton(Organism organism) {
         if(organism == null) {
             HexagonalButton button = new HexagonalButton();
             button.setBackground(Color.white);
             return button;
         }
-        HexagonalButton b = new HexagonalButton(organism.getImage().get);
+        HexagonalButton b = new HexagonalButton(organism.getImagePath());
         b.addActionListener((ActionEvent event) -> {
             JOptionPane.showMessageDialog(null,"Name: " + organism.getName() + "\nPower: " + organism.getPower() + "\nInitiative: " + organism.getInitiative());
         });

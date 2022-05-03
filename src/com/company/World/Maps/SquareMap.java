@@ -25,23 +25,14 @@ public class SquareMap extends Map{
         }
         return newPosition;
     }
-    public Point findEmptyPointNearby(Point point) {
-        for (int j = 0; j < 100; j++) {
-            //try 50 times, if it fails return itself
-            Point newPosition = findRandomPointNearby(point);
-            if (isEmpty(newPosition)) {
-                return newPosition;
-            }
-        }
-        return point;
-    }
     public JButton createButton(Organism organism) {
         if(organism == null) {
             JButton button = new JButton("");
             button.setPreferredSize(new Dimension(40, 40));
+            button.setBackground(Color.white);
             return button;
         }
-        JButton b = new JButton(organism.getImage());
+        JButton b = new JButton(new ImageIcon(organism.getImagePath()));
         b.setPreferredSize(new Dimension(40, 40));
         b.addActionListener((ActionEvent event) -> {
             JOptionPane.showMessageDialog(null,"Name: " + organism.getName() + "\nPower: " + organism.getPower() + "\nInitiative: " + organism.getInitiative());
