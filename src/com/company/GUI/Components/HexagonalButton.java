@@ -1,13 +1,13 @@
 package com.company.GUI.Components;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Point;
-import java.awt.Polygon;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 /**
@@ -23,7 +23,7 @@ public class HexagonalButton extends JButton {
      */
     private static final long serialVersionUID = -7142502695252118612L;
     Polygon hexagonalShape;
-    ImageIcon image;
+    BufferedImage image;
 
 
     public HexagonalButton() {
@@ -35,7 +35,7 @@ public class HexagonalButton extends JButton {
         this.setOpaque(false);
         hexagonalShape = getHexPolygon();
     }
-    public HexagonalButton(ImageIcon image) {
+    public HexagonalButton(BufferedImage image) {
         this.image = image;
         this.setOpaque(false);
         hexagonalShape = getHexPolygon();
@@ -144,7 +144,18 @@ public class HexagonalButton extends JButton {
             g.fillPolygon(hexagonalShape);
         }
         if(image != null) {
-            super.setIcon(image);
+            String pathname =
+            try {
+                BufferedImage img = ImageIO.read(new File("src\\com\\company\\img\\wolf.bmp"));
+                g.drawImage(img, 0, 0, new ImageObserver() {
+                    @Override
+                    public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
+                        return false;
+                    }
+                });
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             g.drawPolygon(hexagonalShape);
         }
     }

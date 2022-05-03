@@ -43,7 +43,7 @@ public class HexMap extends Map{
             button.setBackground(Color.white);
             return button;
         }
-        HexagonalButton b = new HexagonalButton(organism.getImage());
+        HexagonalButton b = new HexagonalButton(organism.getImage().get);
         b.addActionListener((ActionEvent event) -> {
             JOptionPane.showMessageDialog(null,"Name: " + organism.getName() + "\nPower: " + organism.getPower() + "\nInitiative: " + organism.getInitiative());
         });
