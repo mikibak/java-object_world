@@ -17,7 +17,7 @@ public abstract class Plant extends Organism {
         if ((this.getAge() >= this.getMaturityAge()) && (this.getAge() <= this.getOldAge())) {
             Point childsPosition = world.getMap().findEmptyPointNearby(this.getPosition());
             if (!(childsPosition.equals(this.getPosition()))) {
-                createAnyOffspring(world, childsPosition,this.getName());
+                createAnyOffspring(world, childsPosition, this.getName());
             }
         }
         return this.getPosition();

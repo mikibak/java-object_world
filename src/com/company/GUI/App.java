@@ -153,13 +153,15 @@ public class App {
                 if (result == JOptionPane.OK_OPTION) {
                     sizeX = Integer.parseInt(xField.getText());
                     sizeY = Integer.parseInt(yField.getText());
+                    setsOfOrganisms = Integer.parseInt(setsField.getText());
                 }
                 if(Objects.equals(description, "square map")) {
                     world.setMap(new SquareMap(sizeX, sizeY, world));
                 } else world.setMap(new HexMap(sizeX, sizeY, world));
-                //world.getOrganismArray().clear();
+                world.getOrganismArray().clear();
                 world.addMultiple(setsOfOrganisms);
                 drawMap();
+                writeLogs(frame);
                 frame.pack();
             }
         });

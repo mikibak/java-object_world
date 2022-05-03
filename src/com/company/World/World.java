@@ -4,14 +4,14 @@ import com.company.Organisms.Organism;
 import com.company.World.Maps.HexMap;
 import com.company.World.Maps.Map;
 import com.company.World.Maps.SquareMap;
-import org.reflections.Reflections;
-import org.reflections.scanners.SubTypesScanner;
+import io.github.classgraph.ClassGraph;
+import io.github.classgraph.ScanResult;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
-import java.util.ListIterator;
-import java.util.Set;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -21,8 +21,11 @@ public class World {
     private String logs;
     private int turn;
     private Map map;
+    private List<Class<Organism>> organismTypes;
+
     public World(int x, int y) {
         this.organismArray = new ArrayList<Organism>();
+        this.organismTypes = this.findAllClassesUsingReflectionsLibrary("com.company.Organisms");
         this.logs = "Game starts now! ";
     }
 
@@ -69,7 +72,18 @@ public class World {
     }
     public void addMultiple(int number_of_each_species) {
         for(int i = 0; i < number_of_each_species; i++) {
-
+            for(Class species : organismTypes) {
+                try {
+                    Class<?> clazz = Class.forName(species.getName());
+                    Constructor<?> ctor = clazz.getConstructor(Point.class, World.class);
+                    Organism o = (Organism) ctor.newInstance(new Object[] { this.getMap().findRandomEmptyPoint(), this});
+                    this.addOrganism(o);
+                } catch (InstantiationException | IllegalAccessException | InvocationTargetException | ClassNotFoundException e) {
+                    e.printStackTrace();
+                } catch (NoSuchMethodException e) {
+                    //its fine really XD
+                }
+            }
         }
     }
     public void removeOrganism(Organism organism) {
@@ -82,11 +96,12 @@ public class World {
             iterator.next();
         }
     }
-    private Set<Class> findAllClassesUsingReflectionsLibrary(String packageName) {
-        Reflections reflections = new Reflections(packageName, new SubTypesScanner(false));
-        return reflections.getSubTypesOf(Object.class)
-                .stream()
-                .collect(Collectors.toSet());
+    private List<Class<Organism>> findAllClassesUsingReflectionsLibrary(String packageName) {
+        List<Class<Organism>> organisms;
+        try (ScanResult scanResult = new ClassGraph().whitelistPackages(packageName).enableClassInfo().scan()) {
+            organisms = scanResult.getSubclasses(Organism.class.getName()).loadClasses(Organism.class);
+        }
+        return organisms;
     }
 
     //world functionality
