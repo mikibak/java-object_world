@@ -25,6 +25,11 @@ public class Point {
     public void setY(int y) {
         this.y = y;
     }
+    public void setXY(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
 
     public boolean equals(Point other) {
         if(this.x == other.getX() && this.y == other.getY()) {

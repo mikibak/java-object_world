@@ -18,17 +18,32 @@ public class HexMap extends Map{
     public Point findRandomPointNearby(Point point) {
         Point newPosition = new Point();
         Random rand = new Random();
-        //TODO fix this shit
         while(true) {
             int randInt = rand.nextInt(6);
-            if (randInt == 0) {
-                newPosition.setX(point.getX()+1);
-            } else if(randInt == 1 || randInt == 2) {
-                //does not change
+            int x = point.getX();
+            int y = point.getY();
+            //based on https://www.redblobgames.com/grids/hexagons/
+            if(y % 2 == 0) {
+                //even row
+                switch (randInt) {
+                    case 0 -> newPosition.setXY(x - 1, y - 1);
+                    case 1 -> newPosition.setXY(x, y - 1);
+                    case 2 -> newPosition.setXY(x + 1, y);
+                    case 3 -> newPosition.setXY(x, y + 1);
+                    case 4 -> newPosition.setXY(x - 1, y + 1);
+                    case 5 -> newPosition.setXY(x - 1, y);
+                }
             } else {
-                newPosition.setX(point.getX()-1);
+                //odd row
+                switch (randInt) {
+                    case 0 -> newPosition.setXY(x, y - 1);
+                    case 1 -> newPosition.setXY(x + 1, y - 1);
+                    case 2 -> newPosition.setXY(x + 1, y);
+                    case 3 -> newPosition.setXY(x + 1, y + 1);
+                    case 4 -> newPosition.setXY(x, y + 1);
+                    case 5 -> newPosition.setXY(x - 1, y);
+                }
             }
-            newPosition.setY((rand.nextInt(3)-1) + point.getY());
             if(!newPosition.equals(point) && isInBounds(newPosition)) {
                 break;
             }
@@ -43,7 +58,8 @@ public class HexMap extends Map{
         }
         HexagonalButton b = new HexagonalButton(organism.getImagePath());
         b.addActionListener((ActionEvent event) -> {
-            JOptionPane.showMessageDialog(null,"Name: " + organism.getName() + "\nPower: " + organism.getPower() + "\nInitiative: " + organism.getInitiative());
+            JOptionPane.showMessageDialog(null,"Name: " + organism.getName() + "\nPower: " + organism.getPower() +
+                    "\nInitiative: " + organism.getInitiative() + "\nPosition: " + organism.getPosition().getX() + ", "+ organism.getPosition().getY());
         });
         return b;
     }
