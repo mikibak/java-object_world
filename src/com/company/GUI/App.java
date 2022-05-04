@@ -11,23 +11,37 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Objects;
 
 import com.company.World.Point;
 
 public class App {
-    private World world;
-    private JFrame frame;
+    private final World world;
+    private final MovementListener frame;
     private JPanel panel1;
     private JPanel optionsPanel;
     private JPanel gamePanel;
-    private JMenuItem nextTurnButton;
     private JPanel logsPanel;
     private JMenuBar menuBar;
 
     public App(World world) {
-        frame = new JFrame("App");
+        frame = new MovementListener("App");
         this.world = world;
+        frame.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                world.setKeyInput(e.getKeyChar());
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+            }
+        });
     }
     public void createWindow() {
         setupMenuBar();
@@ -54,6 +68,7 @@ public class App {
     private void createUIComponents() {
         //place custom component creation code here
     }
+
     //menu bar setup
     public void setupMenuBar() {
         JMenu fileMenu;
@@ -95,7 +110,7 @@ public class App {
         fileMenu.add(load);
 
         //next turn
-        nextTurnButton = new JMenuItem("Next Turn");
+        JMenuItem nextTurnButton = new JMenuItem("Next Turn");
         nextTurnButton.setMnemonic(KeyEvent.VK_N);
         nextTurnButton.getAccessibleContext().setAccessibleDescription("Next Turn");
         menuBar.add(nextTurnButton);

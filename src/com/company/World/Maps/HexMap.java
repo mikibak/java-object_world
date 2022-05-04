@@ -9,6 +9,7 @@ import com.company.World.World;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -54,14 +55,7 @@ public class HexMap extends Map{
     public Point pickPointNearby(Point point) {
         return findRandomPointNearby(point);
         //TODO human movement
-        /*
-        Point newPosition = new Point();
-        int x = point.getX();
-        int y = point.getY();
-        Scanner sc = new Scanner(System.in);
-        char input= sc.next().charAt(0);
-
-
+         /*
         //based on https://www.redblobgames.com/grids/hexagons/
         if(y % 2 == 0) {
             //even row

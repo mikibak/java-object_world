@@ -1,5 +1,7 @@
 package com.company.World;
 
+import com.company.GUI.MovementListener;
+import com.company.Organisms.Animals.Human;
 import com.company.Organisms.Organism;
 import com.company.World.Maps.Map;
 import io.github.classgraph.ClassGraph;
@@ -17,6 +19,7 @@ public class World {
     private int turn;
     private Map map;
     private List<Class<Organism>> organismTypes;
+    private char keyInput;
 
     public World() {
         this.organismArray = new ArrayList<Organism>();
@@ -43,7 +46,12 @@ public class World {
     public int getTurn() {
         return turn;
     }
-
+    public char getKeyInput() {
+        return keyInput;
+    }
+    public void setKeyInput(char keyInput) {
+        this.keyInput = keyInput;
+    }
     //map
     public void setMap(Map map) {
         this.map = map;
@@ -72,6 +80,7 @@ public class World {
                     Class<?> clazz = Class.forName(species.getName());
                     Constructor<?> ctor = clazz.getConstructor(Point.class, World.class);
                     Organism o = (Organism) ctor.newInstance(new Object[] { this.getMap().findRandomEmptyPoint(), this});
+                    if(o.getName() != "Human")
                     this.addOrganism(o);
                 } catch (InstantiationException | IllegalAccessException | InvocationTargetException | ClassNotFoundException e) {
                     e.printStackTrace();
@@ -80,6 +89,8 @@ public class World {
                 }
             }
         }
+        //TODO get rid of it once adding any organism is done
+        this.addOrganism(new Human(new Point(getMap().getMapSizeX()/2,getMap().getMapSizeY()/2),this));
     }
     public void removeOrganism(Organism organism) {
         ListIterator<Organism> iterator = organismArray.listIterator(1);

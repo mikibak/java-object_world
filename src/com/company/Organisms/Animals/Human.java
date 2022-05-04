@@ -1,6 +1,7 @@
 package com.company.Organisms.Animals;
 
 import com.company.Organisms.Animal;
+import com.company.Organisms.Organism;
 import com.company.World.Point;
 import com.company.World.World;
 
@@ -12,6 +13,12 @@ public class Human extends Animal {
     }
     @Override
     public Point action() {
+        char c = world.getKeyInput();
+        System.out.println(c);
         return world.getMap().pickPointNearby(this.getPosition());
     }
+    //TODO Alzur's shield
+    //@Override
+    //public String collision(Organism guest) {
+    //}
 }
