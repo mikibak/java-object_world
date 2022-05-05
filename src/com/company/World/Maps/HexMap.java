@@ -52,14 +52,14 @@ public class HexMap extends Map{
         }
         return newPosition;
     }
-    public Point pickPointNearby(Point point) {
-        return findRandomPointNearby(point);
-        //TODO human movement
-         /*
+    public Point pickPointNearby(Point position, char direction) {
+        int x = position.getX();
+        int y = position.getY();
+        Point newPosition = new Point(x, y);
         //based on https://www.redblobgames.com/grids/hexagons/
-        if(y % 2 == 0) {
+        if(position.getY() % 2 == 0) {
             //even row
-            switch (input) {
+            switch (direction) {
                 case 'w' -> newPosition.setXY(x - 1, y - 1);
                 case 'e' -> newPosition.setXY(x, y - 1);
                 case 'd' -> newPosition.setXY(x + 1, y);
@@ -69,7 +69,7 @@ public class HexMap extends Map{
             }
         } else {
             //odd row
-            switch (input) {
+            switch (direction) {
                 case 'w' -> newPosition.setXY(x, y - 1);
                 case 'e' -> newPosition.setXY(x + 1, y - 1);
                 case 'd' -> newPosition.setXY(x + 1, y);
@@ -80,9 +80,7 @@ public class HexMap extends Map{
         }
         if(isInBounds(newPosition)) {
             return newPosition;
-        } else return point;
-
-         */
+        } else return position;
     }
     public JButton createButton(Organism organism) {
         if(organism == null) {

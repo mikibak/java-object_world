@@ -82,7 +82,7 @@ public abstract class Map {
         return b;
     }
     public abstract Point findRandomPointNearby(Point point);
-    public abstract Point pickPointNearby(Point point);
+    public abstract Point pickPointNearby(Point point, char c);
     public abstract JButton createButton(Organism organism);
     public abstract void drawMap(JFrame frame, JPanel gamePanel);
 }

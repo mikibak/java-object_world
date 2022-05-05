@@ -20,6 +20,7 @@ public class World {
     private Map map;
     private List<Class<Organism>> organismTypes;
     private char keyInput;
+    private int specialEffectCooldown;
 
     public World() {
         this.organismArray = new ArrayList<Organism>();
@@ -52,6 +53,16 @@ public class World {
     public void setKeyInput(char keyInput) {
         this.keyInput = keyInput;
     }
+    public int getSpecialEffectCooldown() {
+        return specialEffectCooldown;
+    }
+    public void setSpecialEffectCooldown(int specialEffectCooldown) {
+        this.specialEffectCooldown = specialEffectCooldown;
+        if(this.specialEffectCooldown<0) {
+            this.specialEffectCooldown = 0;
+        }
+    }
+
     //map
     public void setMap(Map map) {
         this.map = map;
@@ -80,7 +91,7 @@ public class World {
                     Class<?> clazz = Class.forName(species.getName());
                     Constructor<?> ctor = clazz.getConstructor(Point.class, World.class);
                     Organism o = (Organism) ctor.newInstance(new Object[] { this.getMap().findRandomEmptyPoint(), this});
-                    if(o.getName() != "Human")
+                    if(o.getName() != "Human") //there can only be one human
                     this.addOrganism(o);
                 } catch (InstantiationException | IllegalAccessException | InvocationTargetException | ClassNotFoundException e) {
                     e.printStackTrace();
@@ -89,7 +100,6 @@ public class World {
                 }
             }
         }
-        //TODO get rid of it once adding any organism is done
         this.addOrganism(new Human(new Point(getMap().getMapSizeX()/2,getMap().getMapSizeY()/2),this));
     }
     public void removeOrganism(Organism organism) {

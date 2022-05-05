@@ -13,12 +13,29 @@ public class Human extends Animal {
     }
     @Override
     public Point action() {
+        world.setSpecialEffectCooldown(world.getSpecialEffectCooldown()-1);
+
         char c = world.getKeyInput();
         System.out.println(c);
-        return world.getMap().pickPointNearby(this.getPosition());
+        if(c == 'k') {
+            if(world.getSpecialEffectCooldown()==0 || world.getSpecialEffectCooldown()>=5) {
+                world.setSpecialEffectCooldown(10);
+            } else {
+                System.out.println("Wait for the cooldown!");
+            }
+            return this.getPosition();
+        } else {
+            return world.getMap().pickPointNearby(this.getPosition(),c);
+        }
     }
-    //TODO Alzur's shield
-    //@Override
-    //public String collision(Organism guest) {
-    //}
+    @Override
+    public String collision(Organism guest) {
+    //deflects an attack of any animal if Alzur's shield abillity is active
+        if (world.getSpecialEffectCooldown() >= 5) {
+            return this.getName() + " deflected a " + guest.getName() + " using Alzur's shield on x=" + this.getPosition().getX() + ", y=" + this.getPosition().getY() + "; ";
+        }
+        else {
+            return super.collision(guest);
+        }
+    }
 }
