@@ -24,8 +24,8 @@ public abstract class Animal extends Organism {
             //stronger one eats the weaker one
             if (guest.getPower() >= this.getPower()) {
                 //guest eats the host
-                guest.setPosition(this.getPosition());
                 world.removeOrganism(this);
+                guest.setPosition(this.getPosition());
                 return this.getName() + " got eaten by a hungry " + guest.getName() + " on x=" + this.getPosition().getX() + ", y=" + this.getPosition().getY() + "; ";
             }
             else {

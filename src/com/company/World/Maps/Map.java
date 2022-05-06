@@ -46,7 +46,7 @@ public abstract class Map {
                 break;
             }
         }
-        if (!occupied) {
+        if (occupied == false) {
             //iterated through all organisms, this position is empty
             return true;
         } else {

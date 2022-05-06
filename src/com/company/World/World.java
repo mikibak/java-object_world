@@ -121,12 +121,12 @@ public class World {
     }
     public void removeOrganism(Organism organism) {
         ListIterator<Organism> iterator = organismArray.listIterator(0);
-        for (Organism o : organismArray) {
+        for (int i = 0; i < organismArray.size(); i ++) {
+            Organism o = organismArray.get(i);
             if (o == organism) {
-                iterator.remove();
+                organismArray.remove(i);
                 break;
             }
-            iterator.next();
         }
     }
     private List<Class<Organism>> findAllClassesUsingReflectionsLibrary(String packageName) {
