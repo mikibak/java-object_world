@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
 import java.util.Objects;
 
 import com.company.World.Point;
@@ -92,7 +93,11 @@ public class App {
         save.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO reference save function in world
+                try {
+                    world.save();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             }
         });
         fileMenu.add(save);
@@ -104,7 +109,7 @@ public class App {
         load.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO reference load function in world
+                world.load();
             }
         });
         fileMenu.add(load);

@@ -1,12 +1,15 @@
 package com.company.World;
 
 import com.company.GUI.MovementListener;
+import com.company.Organisms.Animal;
 import com.company.Organisms.Animals.Human;
 import com.company.Organisms.Organism;
 import com.company.World.Maps.Map;
+import com.company.World.Maps.SquareMap;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ScanResult;
 
+import java.io.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
@@ -31,9 +34,6 @@ public class World {
     //getters
     public int getNumberOfOrganisms() {
         return organismArray.size();
-    }
-    Organism getOneOrganism(int index) {
-        return null;
     }
     public ArrayList<Organism> getOrganismArray() {
         return organismArray;
@@ -102,8 +102,25 @@ public class World {
         }
         this.addOrganism(new Human(new Point(getMap().getMapSizeX()/2,getMap().getMapSizeY()/2),this));
     }
+    public Organism addByName(String name) {
+        for(Class species : organismTypes) {
+            if(species.getName().equals("com.company.Organisms.Animals." + name) || species.getName().equals("com.company.Organisms.Plants." + name)|| species.getName().equals(name)) {
+                try {
+                    Class<?> clazz = Class.forName(species.getName());
+                    Constructor<?> ctor = clazz.getConstructor(Point.class, World.class);
+                    Organism o = (Organism) ctor.newInstance(new Object[] { this.getMap().findRandomEmptyPoint(), this});
+                    return o;
+                } catch (InstantiationException | IllegalAccessException | InvocationTargetException | ClassNotFoundException e) {
+                    e.printStackTrace();
+                } catch (NoSuchMethodException e) {
+                    //its fine really XD
+                }
+            }
+        }
+        return null;
+    }
     public void removeOrganism(Organism organism) {
-        ListIterator<Organism> iterator = organismArray.listIterator(1);
+        ListIterator<Organism> iterator = organismArray.listIterator(0);
         for (Organism o : organismArray) {
             if (o == organism) {
                 iterator.remove();
@@ -144,4 +161,82 @@ public class World {
         }
         turn++;
     }
+
+    //file operations
+    public void save() throws IOException {
+        try {
+            OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream("save.txt"), "UTF-8");
+            writer.write(Integer.toString(this.organismArray.size())+'\n');
+            writer.write(Integer.toString(this.getMap().getMapSizeX())+'\n');
+            writer.write(Integer.toString(this.getMap().getMapSizeY())+'\n');
+            writer.write(Integer.toString(this.getTurn())+'\n');
+            writer.write(Integer.toString(this.getSpecialEffectCooldown())+'\n');
+            for(Organism o : organismArray) {
+                writer.write(Integer.toString(o.getPosition().getX())+'\n');
+                writer.write(Integer.toString(o.getPosition().getY())+'\n');
+                writer.write(o.getName()+'\n');
+                writer.write(Integer.toString(o.getPower())+'\n');
+                writer.write(Integer.toString(o.getAge())+'\n');
+            }
+            writer.close();
+            System.out.println("Successfully wrote to the file.");
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
+    public void load() {
+        try {
+            File myObj = new File("save.txt");
+            Scanner myReader = new Scanner(myObj);
+            String line;
+            organismArray.clear();
+
+            line = myReader.nextLine();
+            int n_of_organisms = Integer.parseInt(line);
+
+            int sizeX, sizeY;
+            sizeX = Integer.parseInt(myReader.nextLine());
+            sizeY = Integer.parseInt(myReader.nextLine());
+            this.setMap(new SquareMap(sizeX, sizeY,this));
+
+            line = myReader.nextLine();
+            turn = Integer.parseInt(line);
+
+            line = myReader.nextLine();
+            specialEffectCooldown = Integer.parseInt(line);
+
+            for (int i = 0; i < n_of_organisms; i++) {
+                Point p = new Point();
+                line = myReader.nextLine();
+                p.setX(Integer.parseInt(line));
+
+                line = myReader.nextLine();
+                p.setY(Integer.parseInt(line));
+
+                line = myReader.nextLine();
+                Organism organism = addByName(line);
+
+                line = myReader.nextLine();
+                organism.setPower(Integer.parseInt(line));
+
+                line = myReader.nextLine();
+                for (int j = 0; j < Integer.parseInt(line); j++) {
+                    organism.addAge();
+                }
+                organism.setPosition(p);
+                organism.setWorld(this);
+                addOrganism(organism);
+            }
+            while (myReader.hasNextLine()) {
+                String data = myReader.nextLine();
+                System.out.println(data);
+            }
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
+
 }

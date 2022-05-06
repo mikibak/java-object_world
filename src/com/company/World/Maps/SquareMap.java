@@ -38,9 +38,10 @@ public class SquareMap extends Map{
             return new Point(x,y);
         } else return position;
     }
-    public JButton createButton(Organism organism) {
+    public JButton createButton(Organism organism, Point p) {
         if(organism == null) {
             JButton button = new JButton("");
+            createEmptyButton(button, p);
             button.setPreferredSize(new Dimension(40, 40));
             button.setBackground(Color.white);
             return button;

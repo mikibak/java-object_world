@@ -6,6 +6,8 @@ import com.company.World.World;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Objects;
 import java.util.Random;
 
 public abstract class Map {
@@ -19,20 +21,23 @@ public abstract class Map {
         this.mapSizeY = y;
         this.world = world;
     }
+
     public int getMapSizeX() {
         return mapSizeX;
     }
+
     public int getMapSizeY() {
         return mapSizeY;
     }
+
     public boolean isInBounds(Point point) {
-        if (point.getX() > 0 && point.getY() > 0 && point.getX() < world.getMap().getMapSizeX()-1 && point.getY() < world.getMap().getMapSizeY()-1) {
+        if (point.getX() > 0 && point.getY() > 0 && point.getX() < world.getMap().getMapSizeX() - 1 && point.getY() < world.getMap().getMapSizeY() - 1) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
+
     public boolean isEmpty(Point point) {
         boolean occupied = false;
         for (Organism o : world.getOrganismArray()) {
@@ -41,14 +46,14 @@ public abstract class Map {
                 break;
             }
         }
-        if(!occupied) {
+        if (!occupied) {
             //iterated through all organisms, this position is empty
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
+
     public Point findRandomEmptyPoint() {
         Point new_position = new Point();
         Random rand = new Random();
@@ -61,6 +66,7 @@ public abstract class Map {
         }
         return new_position;
     }
+
     public Point findEmptyPointNearby(com.company.World.Point point) {
         for (int j = 0; j < 100; j++) {
             //try 50 times, if it fails return itself
@@ -71,18 +77,41 @@ public abstract class Map {
         }
         return point;
     }
+
     public JButton addOnPosition(Point p) {
-        JButton b = createButton(null);
+        JButton b = createButton(null, p);
         for (Organism o : world.getOrganismArray()) {
             if (o.getPosition().equals(p)) {
-                b = createButton(o);
+                b = createButton(o, p);
                 break;
             }
         }
         return b;
     }
+
+    protected void createEmptyButton(JButton button, Point p) {
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JTextField nameField = new JTextField(5);
+
+                JPanel myPanel = new JPanel();
+                myPanel.add(new JLabel("New organism's name:"));
+                myPanel.add(nameField);
+
+                int result = JOptionPane.showConfirmDialog(null, myPanel,
+                        "Which organism would you like to add?", JOptionPane.OK_CANCEL_OPTION);
+                if (result == JOptionPane.OK_OPTION) {
+                    Organism o = world.addByName(nameField.getText());
+                    o.setPosition(p);
+                    world.addOrganism(o);
+                }
+            }
+        });
+    }
+
     public abstract Point findRandomPointNearby(Point point);
     public abstract Point pickPointNearby(Point point, char c);
-    public abstract JButton createButton(Organism organism);
+    public abstract JButton createButton(Organism organism, Point p);
     public abstract void drawMap(JFrame frame, JPanel gamePanel);
 }

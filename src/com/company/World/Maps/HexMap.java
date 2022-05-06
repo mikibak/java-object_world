@@ -82,9 +82,10 @@ public class HexMap extends Map{
             return newPosition;
         } else return position;
     }
-    public JButton createButton(Organism organism) {
+    public JButton createButton(Organism organism, Point p) {
         if(organism == null) {
             HexagonalButton button = new HexagonalButton();
+            createEmptyButton(button,p);
             button.setBackground(Color.white);
             return button;
         }
