@@ -9,9 +9,7 @@ import com.company.World.World;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 import java.util.Random;
-import java.util.Scanner;
 
 public class HexMap extends Map{
     public HexMap(int x, int y, World world) {

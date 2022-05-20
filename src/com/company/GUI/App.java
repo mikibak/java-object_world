@@ -1,22 +1,12 @@
 package com.company.GUI;
 
 import com.company.Controller;
-import com.company.GUI.Components.HexagonalButton;
-import com.company.GUI.Components.HexagonalLayout;
-import com.company.World.Maps.HexMap;
-import com.company.World.Maps.SquareMap;
-import com.company.World.World;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.IOException;
-import java.util.Objects;
-
-import com.company.World.Point;
 
 public class App {
     private final Controller controller;

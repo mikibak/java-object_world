@@ -1,7 +1,5 @@
 package com.company.World;
 
-import com.company.GUI.MovementListener;
-import com.company.Organisms.Animal;
 import com.company.Organisms.Animals.Human;
 import com.company.Organisms.Organism;
 import com.company.World.Maps.HexMap;
