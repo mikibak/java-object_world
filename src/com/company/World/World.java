@@ -4,6 +4,7 @@ import com.company.GUI.MovementListener;
 import com.company.Organisms.Animal;
 import com.company.Organisms.Animals.Human;
 import com.company.Organisms.Organism;
+import com.company.World.Maps.HexMap;
 import com.company.World.Maps.Map;
 import com.company.World.Maps.SquareMap;
 import io.github.classgraph.ClassGraph;
@@ -22,6 +23,7 @@ public class World {
     private int turn;
     private Map map;
     private List<Class<Organism>> organismTypes;
+
     private char keyInput;
     private int specialEffectCooldown;
 
@@ -62,6 +64,9 @@ public class World {
             this.specialEffectCooldown = 0;
         }
     }
+    protected List<Class<Organism>> getOrganismTypes() {
+        return organismTypes;
+    }
 
     //map
     public void setMap(Map map) {
@@ -96,7 +101,7 @@ public class World {
                 } catch (InstantiationException | IllegalAccessException | InvocationTargetException | ClassNotFoundException e) {
                     e.printStackTrace();
                 } catch (NoSuchMethodException e) {
-                    //its fine really XD
+                    //its fine really
                 }
             }
         }
@@ -167,6 +172,9 @@ public class World {
         try {
             OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream("save.txt"), "UTF-8");
             writer.write(Integer.toString(this.organismArray.size())+'\n');
+            if(this.getMap().getClass() == SquareMap.class) {
+                writer.write("SquareMap"+'\n');
+            } else writer.write("HexMap"+'\n');
             writer.write(Integer.toString(this.getMap().getMapSizeX())+'\n');
             writer.write(Integer.toString(this.getMap().getMapSizeY())+'\n');
             writer.write(Integer.toString(this.getTurn())+'\n');
@@ -195,10 +203,14 @@ public class World {
             line = myReader.nextLine();
             int n_of_organisms = Integer.parseInt(line);
 
+            String mapType = myReader.nextLine();
+
             int sizeX, sizeY;
             sizeX = Integer.parseInt(myReader.nextLine());
             sizeY = Integer.parseInt(myReader.nextLine());
-            this.setMap(new SquareMap(sizeX, sizeY,this));
+            if(mapType == "SquareMap") {
+                this.setMap(new SquareMap(sizeX, sizeY,this));
+            } else this.setMap(new HexMap(sizeX, sizeY,this));
 
             line = myReader.nextLine();
             turn = Integer.parseInt(line);

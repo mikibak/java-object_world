@@ -1,5 +1,6 @@
 package com.company.GUI;
 
+import com.company.Controller;
 import com.company.GUI.Components.HexagonalButton;
 import com.company.GUI.Components.HexagonalLayout;
 import com.company.World.Maps.HexMap;
@@ -18,7 +19,7 @@ import java.util.Objects;
 import com.company.World.Point;
 
 public class App {
-    private final World world;
+    private final Controller controller;
     private final MovementListener frame;
     private JPanel panel1;
     private JPanel optionsPanel;
@@ -26,9 +27,9 @@ public class App {
     private JPanel logsPanel;
     private JMenuBar menuBar;
 
-    public App(World world) {
+    public App(Controller controller) {
         frame = new MovementListener("App");
-        this.world = world;
+        this.controller = controller;
         frame.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -36,7 +37,7 @@ public class App {
 
             @Override
             public void keyPressed(KeyEvent e) {
-                world.setKeyInput(e.getKeyChar());
+                controller.setKeyInput(e.getKeyChar());
             }
 
             @Override
@@ -54,14 +55,14 @@ public class App {
     }
     public void drawMap() {
         gamePanel.removeAll();
-        world.getMap().drawMap(frame, gamePanel);
+        controller.getMap().drawMap(frame, gamePanel);
         gamePanel.revalidate();
         gamePanel.repaint();
         this.writeLogs(frame);
     }
     public void writeLogs(JFrame frame) {
         logsPanel.removeAll();
-        String logs = world.getLogs();
+        String logs = controller.getLogs();
         logsPanel.add(new JTextArea(logs));
         logsPanel.revalidate();
         logsPanel.repaint();
@@ -90,28 +91,14 @@ public class App {
         save = new JMenuItem("Save",KeyEvent.VK_T);
         save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, ActionEvent.ALT_MASK));
         save.getAccessibleContext().setAccessibleDescription("save game");
-        save.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    world.save();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            }
-        });
+        save.addActionListener(controller.save());
         fileMenu.add(save);
 
         //load game
         load = new JMenuItem("Load",KeyEvent.VK_T);
         load.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, ActionEvent.ALT_MASK));
         load.getAccessibleContext().setAccessibleDescription("load game");
-        load.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                world.load();
-            }
-        });
+        load.addActionListener(controller.load());
         fileMenu.add(load);
 
         //next turn
@@ -119,13 +106,7 @@ public class App {
         nextTurnButton.setMnemonic(KeyEvent.VK_N);
         nextTurnButton.getAccessibleContext().setAccessibleDescription("Next Turn");
         menuBar.add(nextTurnButton);
-        nextTurnButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                world.playTurn();
-                drawMap();
-            }
-        });
+        nextTurnButton.addActionListener(controller.nextTurn());
 
         //start new game
         newMenu = new JMenu("New");
@@ -174,11 +155,7 @@ public class App {
                     sizeY = Integer.parseInt(yField.getText());
                     setsOfOrganisms = Integer.parseInt(setsField.getText());
                 }
-                if(Objects.equals(description, "square map")) {
-                    world.setMap(new SquareMap(sizeX, sizeY, world));
-                } else world.setMap(new HexMap(sizeX, sizeY, world));
-                world.getOrganismArray().clear();
-                world.addMultiple(setsOfOrganisms);
+                controller.setupNewGame(sizeX, sizeY, setsOfOrganisms, description);
                 drawMap();
                 writeLogs(frame);
                 frame.pack();
