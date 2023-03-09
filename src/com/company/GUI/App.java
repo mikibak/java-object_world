@@ -11,6 +11,8 @@ import java.awt.event.KeyListener;
 public class App {
     private final Controller controller;
     private final MovementListener frame;
+    private final int maxMapSize = 20;
+    private final int minMapSize = 10;
     private JPanel panel1;
     private JPanel optionsPanel;
     private JPanel gamePanel;
@@ -139,11 +141,17 @@ public class App {
                 myPanel.add(setsField);
 
                 int result = JOptionPane.showConfirmDialog(null, myPanel,
-                        "Please Enter X and Y Values", JOptionPane.OK_CANCEL_OPTION);
+                        "Please Enter X and Y Values (between 10 and 20)", JOptionPane.OK_CANCEL_OPTION);
                 if (result == JOptionPane.OK_OPTION) {
                     sizeX = Integer.parseInt(xField.getText());
                     sizeY = Integer.parseInt(yField.getText());
                     setsOfOrganisms = Integer.parseInt(setsField.getText());
+
+                    if(sizeX > maxMapSize) sizeX = maxMapSize;
+                    if(sizeY > maxMapSize) sizeY = maxMapSize;
+                    if(sizeX < minMapSize) sizeX = minMapSize;
+                    if(sizeY < minMapSize) sizeY = minMapSize;
+                    if(setsOfOrganisms > sizeX/5) setsOfOrganisms = sizeX/5;
                 }
                 controller.setupNewGame(sizeX, sizeY, setsOfOrganisms, description);
                 drawMap();
