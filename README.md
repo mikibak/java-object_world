@@ -1,8 +1,6 @@
 # Programowanie obiektowe Java
 Wirtualny świat stworzony obiektowo w Javie z graficznym interfejsem.
 
-# UWAGA! Sugerowany rozmiar mapy to 20, a liczba organizmów to 1-5. Przy niektórych wartościach okno niewłaściwie się skaluje. Planuję to wkrótce naprawić.
-
 ![objectWorldSize](https://user-images.githubusercontent.com/107919074/223565442-cb724077-1620-4482-8503-42a75647885c.PNG)
 
 
